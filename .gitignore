@@ -9,6 +9,7 @@ build/
 ### IntelliJ IDEA ###
 .idea/*
 !.idea/encodings.xml
+!.idea/copyright
 *.iws
 *.iml
 *.ipr

@@ -14,14 +14,17 @@
  * limitations under the License.
  */
 
-package com.glebfox.jmix.autoconfigure.locstr;
+package com.glebfox.jmix.locstr.validation;
 
-import com.glebfox.jmix.locstr.LocstrConfiguration;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.context.annotation.Import;
+import org.springframework.lang.Nullable;
 
-@AutoConfiguration
-@Import({LocstrConfiguration.class})
-public class LocstrAutoConfiguration {
+import java.util.Locale;
+
+public record ValidatorAdapter(Validator validator, Locale locale)
+        implements io.jmix.flowui.component.validation.Validator<String> {
+
+    @Override
+    public void accept(@Nullable String value) {
+        validator.accept(new ValidationContext(locale, value));
+    }
 }
-

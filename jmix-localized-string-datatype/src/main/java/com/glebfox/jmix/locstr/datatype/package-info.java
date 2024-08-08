@@ -14,14 +14,7 @@
  * limitations under the License.
  */
 
-package com.glebfox.jmix.autoconfigure.locstr;
+@NonNullApi
+package com.glebfox.jmix.locstr.datatype;
 
-import com.glebfox.jmix.locstr.LocstrConfiguration;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.context.annotation.Import;
-
-@AutoConfiguration
-@Import({LocstrConfiguration.class})
-public class LocstrAutoConfiguration {
-}
-
+import org.springframework.lang.NonNullApi;

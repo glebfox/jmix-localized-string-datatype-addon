@@ -14,14 +14,15 @@
  * limitations under the License.
  */
 
-package com.glebfox.jmix.autoconfigure.locstr;
+package com.glebfox.jmix.locstr.validation;
 
-import com.glebfox.jmix.locstr.LocstrConfiguration;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.context.annotation.Import;
+import com.glebfox.jmix.locstr.action.LocalizedStringEditAction;
 
-@AutoConfiguration
-@Import({LocstrConfiguration.class})
-public class LocstrAutoConfiguration {
+import java.util.function.Consumer;
+
+/**
+ * A functional interface for validating user input when {@link LocalizedStringEditAction} is used.
+ */
+@FunctionalInterface
+public interface Validator extends Consumer<ValidationContext> {
 }
-
