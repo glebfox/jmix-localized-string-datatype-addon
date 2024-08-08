@@ -1,0 +1,8 @@
+rootProject.name = 'jmix-localized-string-datatype-addon'
+
+include 'jmix-localized-string-datatype'
+include 'jmix-localized-string-datatype-starter'
+
+rootProject.children.each { p1 ->
+    p1.buildFileName = "${p1.name}.gradle"
+}
