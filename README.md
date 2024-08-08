@@ -1,0 +1,1 @@
+# jmix-localized-string-datatype-addon
