@@ -1,4 +1,4 @@
-[![license](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0)
+[![license](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg?style=flat)](http://www.apache.org/licenses/LICENSE-2.0)
 [![GitHub release](https://img.shields.io/github/release/glebfox/jmix-localized-string-datatype-addon.svg)](https://github.com/glebfox/jmix-localized-string-datatype-addon/releases)
 
 # Jmix LocalizedString Datatype
