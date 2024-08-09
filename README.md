@@ -7,6 +7,12 @@ This add-on provides a custom [Datatype](https://docs.jmix.io/jmix/data-model/da
 
 ## Installation
 
+The following table shows which version of the add-on is compatible with which version of the platform:
+
+| Jmix Version | Add-on Version | Implementation                                                       |
+|--------------|----------------|----------------------------------------------------------------------|
+| 2.3.0+       | 1.0.0          | com.glebfox.jmix.locstr:jmix-localized-string-datatype-starter:1.0.0 |
+
 For manual installation, add the following dependencies to your `build.gradle`:
 
 ```groovy
