@@ -14,12 +14,17 @@
  * limitations under the License.
  */
 
-rootProject.name = 'jmix-localized-string-datatype-addon'
+package com.glebfox.jmix.locstr.demo.view.user;
 
-include 'jmix-localized-string-datatype'
-include 'jmix-localized-string-datatype-starter'
-include 'jmix-localized-string-datatype-demo'
+import com.glebfox.jmix.locstr.demo.entity.User;
+import com.glebfox.jmix.locstr.demo.view.main.MainView;
+import com.vaadin.flow.router.Route;
+import io.jmix.flowui.view.*;
 
-rootProject.children.each { p1 ->
-    p1.buildFileName = "${p1.name}.gradle"
+@Route(value = "users", layout = MainView.class)
+@ViewController("User.list")
+@ViewDescriptor("user-list-view.xml")
+@LookupComponent("usersDataGrid")
+@DialogMode(width = "64em")
+public class UserListView extends StandardListView<User> {
 }

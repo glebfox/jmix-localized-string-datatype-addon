@@ -14,12 +14,8 @@
  * limitations under the License.
  */
 
-rootProject.name = 'jmix-localized-string-datatype-addon'
+/* Predefined styles for the LoginView */
 
-include 'jmix-localized-string-datatype'
-include 'jmix-localized-string-datatype-starter'
-include 'jmix-localized-string-datatype-demo'
-
-rootProject.children.each { p1 ->
-    p1.buildFileName = "${p1.name}.gradle"
+.jmix-login-main-layout {
+  background-color: var(--lumo-shade-5pct);
 }

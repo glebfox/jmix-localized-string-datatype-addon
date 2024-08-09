@@ -14,12 +14,18 @@
  * limitations under the License.
  */
 
-rootProject.name = 'jmix-localized-string-datatype-addon'
+package com.glebfox.jmix.locstr.demo.view.product;
 
-include 'jmix-localized-string-datatype'
-include 'jmix-localized-string-datatype-starter'
-include 'jmix-localized-string-datatype-demo'
+import com.glebfox.jmix.locstr.demo.entity.Product;
+import com.glebfox.jmix.locstr.demo.view.main.MainView;
+import com.vaadin.flow.router.Route;
+import io.jmix.flowui.view.*;
 
-rootProject.children.each { p1 ->
-    p1.buildFileName = "${p1.name}.gradle"
+
+@Route(value = "products", layout = MainView.class)
+@ViewController("locstr_Product.list")
+@ViewDescriptor("product-list-view.xml")
+@LookupComponent("productsDataGrid")
+@DialogMode(width = "64em")
+public class ProductListView extends StandardListView<Product> {
 }

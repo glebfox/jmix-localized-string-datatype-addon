@@ -14,12 +14,7 @@
  * limitations under the License.
  */
 
-rootProject.name = 'jmix-localized-string-datatype-addon'
-
-include 'jmix-localized-string-datatype'
-include 'jmix-localized-string-datatype-starter'
-include 'jmix-localized-string-datatype-demo'
-
-rootProject.children.each { p1 ->
-    p1.buildFileName = "${p1.name}.gradle"
-}
+@import url('./jmix-localized-string-datatype-demo.css');
+@import url('view/main-view.css');
+@import url('view/main-view-top-menu.css');
+@import url('view/login-view.css');

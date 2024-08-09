@@ -14,12 +14,15 @@
  * limitations under the License.
  */
 
-rootProject.name = 'jmix-localized-string-datatype-addon'
+package com.glebfox.jmix.locstr.demo.view.main;
 
-include 'jmix-localized-string-datatype'
-include 'jmix-localized-string-datatype-starter'
-include 'jmix-localized-string-datatype-demo'
+import com.vaadin.flow.router.Route;
+import io.jmix.flowui.app.main.StandardMainView;
+import io.jmix.flowui.view.ViewController;
+import io.jmix.flowui.view.ViewDescriptor;
 
-rootProject.children.each { p1 ->
-    p1.buildFileName = "${p1.name}.gradle"
+@Route("")
+@ViewController("MainView")
+@ViewDescriptor("main-view.xml")
+public class MainView extends StandardMainView {
 }
