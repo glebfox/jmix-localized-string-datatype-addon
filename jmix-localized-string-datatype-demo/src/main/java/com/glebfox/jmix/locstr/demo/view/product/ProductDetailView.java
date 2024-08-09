@@ -25,6 +25,7 @@ import com.vaadin.flow.router.Route;
 import io.jmix.flowui.UiComponents;
 import io.jmix.flowui.component.richtexteditor.RichTextEditor;
 import io.jmix.flowui.exception.ValidationException;
+import io.jmix.flowui.kit.component.richtexteditor.RichTextEditorVariant;
 import io.jmix.flowui.view.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -47,6 +48,8 @@ public class ProductDetailView extends StandardDetailView<Product> {
 
     /*@Install(to = "descriptionField.localizedStringEdit", subject = "fieldProvider")
     private HasValueAndElement<?, String> descriptionFieldFieldProvider(final FieldGenerationContext context) {
-        return uiComponents.create(RichTextEditor.class);
+        RichTextEditor richTextEditor = uiComponents.create(RichTextEditor.class);
+        richTextEditor.addThemeVariants(RichTextEditorVariant.COMPACT);
+        return richTextEditor;
     }*/
 }
