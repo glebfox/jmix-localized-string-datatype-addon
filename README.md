@@ -139,6 +139,13 @@ private HasValueAndElement<?, String> descriptionFieldFieldProvider(final FieldG
 
 ![Field Provider](/doc/img/field-provider.png)
 
+## Limitations
+
+Since the actual value stored in the database is a JSON string (`CLOB`), the following Jmix functionalities do not work with `LocalizedString`:
+
+* `GenericFilter` and `PropertyFilter` components.
+* Sorting is applied to the entire JSON string value, not just the value for the current locale. 
+
 ## License
 
 Code is under the [Apache Licence 2.0](http://www.apache.org/licenses/LICENSE-2.0).
