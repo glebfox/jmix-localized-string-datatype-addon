@@ -6,6 +6,11 @@
 
 This add-on provides a custom [Datatype](https://docs.jmix.io/jmix/data-model/data-types.html) and related action for the [ValuePicker](https://docs.jmix.io/jmix/flow-ui/vc/components/valuePicker.html) component for storing and editing localized string values.
 
+The value displayed in visual components depends on the user's current locale.
+
+![Localized Value 1](/doc/img/localized-value-1.png)
+![Localized Value 2](/doc/img/localized-value-2.png)
+
 ## Installation
 
 The following table shows which version of the add-on is compatible with which version of the platform:
