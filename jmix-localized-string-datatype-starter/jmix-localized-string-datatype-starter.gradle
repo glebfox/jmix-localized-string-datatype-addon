@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-archivesBaseName = 'jmix-localized-string-datatype-starter'
-
 jmix {
     entitiesEnhancing {
         enabled = false

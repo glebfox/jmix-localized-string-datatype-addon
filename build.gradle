@@ -19,7 +19,7 @@ buildscript {
         gradlePluginPortal()
     }
     dependencies {
-        classpath "io.jmix.gradle:jmix-gradle-plugin:2.3.0"
+        classpath 'io.jmix.gradle:jmix-gradle-plugin:2.7.1'
     }
 }
 
@@ -38,7 +38,7 @@ subprojects {
     }
 
     jmix {
-        bomVersion = '2.3.0'
+        bomVersion = '2.7.1'
         projectId = 'locstr'
     }
 
@@ -46,17 +46,12 @@ subprojects {
     version = this.version
 
     if (it.name != 'jmix-localized-string-datatype-demo') {
-        def props = new Properties()
-        buildFile.withInputStream { props.load(it) }
-        def subArchivesBaseName = props.getProperty('archivesBaseName')
-        def archName = subArchivesBaseName.substring(1, subArchivesBaseName.length() - 1)
-
         java {
             withSourcesJar()
         }
 
         artifacts {
-            archives sourcesJar
+            archives(sourcesJar)
         }
 
         publishing {
@@ -72,7 +67,7 @@ subprojects {
             }
             publications {
                 javaMaven(MavenPublication) {
-                    artifactId = archName
+                    artifactId = project.name
                     from components.java
                 }
             }
