@@ -134,6 +134,26 @@ If the target `ValuePicker` of `LocalizedStringEditAction` is bound to a require
 
 ![Required Field](/doc/img/required-field.png)
 
+The add-on provides Bean Validation annotations for `LocalizedString` attributes:
+
+* `@LocalizedStringSize`
+* `@LocalizedStringLength`
+* `@LocalizedStringPattern`
+* `@LocalizedStringNotNull`
+* `@LocalizedStringNotEmpty`
+* `@LocalizedStringNotBlank`
+
+For example:
+
+```java
+@LocalizedStringNotBlank
+@LocalizedStringSize(max = 100)
+@Column(name = "NAME")
+private LocalizedString name;
+```
+
+Every stored localized value is validated. `@LocalizedStringNotNull` also checks that a value is stored for every configured application locale. When the edit dialog is used for an entity attribute, these constraints are applied to each locale field separately. Standard `@NotNull` can still be used for the attribute itself when only the `LocalizedString` object reference should be checked.
+
 Additionally, you can add a validator that checks the value of every field in the edit dialog. For example:
 
 ```java

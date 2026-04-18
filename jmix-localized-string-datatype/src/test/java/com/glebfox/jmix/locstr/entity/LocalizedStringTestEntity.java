@@ -17,15 +17,21 @@
 package com.glebfox.jmix.locstr.entity;
 
 import com.glebfox.jmix.locstr.datatype.LocalizedString;
+import com.glebfox.jmix.locstr.validation.constraints.LocalizedStringNotBlank;
+import com.glebfox.jmix.locstr.validation.constraints.LocalizedStringSize;
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
 import io.jmix.core.metamodel.annotation.InstanceName;
 import io.jmix.core.metamodel.annotation.JmixEntity;
+import io.jmix.core.metamodel.annotation.JmixProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import jakarta.persistence.Version;
 
+import java.util.Locale;
+import java.util.Map;
 import java.util.UUID;
 
 @JmixEntity
@@ -45,6 +51,16 @@ public class LocalizedStringTestEntity {
     @InstanceName
     @Column(name = "NAME", nullable = false)
     private LocalizedString name;
+
+    @LocalizedStringNotBlank
+    @JmixProperty
+    @Transient
+    private LocalizedString validationName = new LocalizedString(Map.of(Locale.ENGLISH, "value"));
+
+    @LocalizedStringSize(max = 100)
+    @JmixProperty
+    @Transient
+    private LocalizedString validationOptional;
 
     public UUID getId() {
         return id;
@@ -68,5 +84,25 @@ public class LocalizedStringTestEntity {
 
     public void setName(LocalizedString name) {
         this.name = name;
+    }
+
+    @SuppressWarnings("unused")
+    public LocalizedString getValidationName() {
+        return validationName;
+    }
+
+    @SuppressWarnings("unused")
+    public void setValidationName(LocalizedString validationName) {
+        this.validationName = validationName;
+    }
+
+    @SuppressWarnings("unused")
+    public LocalizedString getValidationOptional() {
+        return validationOptional;
+    }
+
+    @SuppressWarnings("unused")
+    public void setValidationOptional(LocalizedString validationOptional) {
+        this.validationOptional = validationOptional;
     }
 }

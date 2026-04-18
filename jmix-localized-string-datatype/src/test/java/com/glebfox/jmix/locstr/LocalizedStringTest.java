@@ -25,6 +25,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.Locale;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
 public class LocalizedStringTest {
@@ -49,5 +50,17 @@ public class LocalizedStringTest {
         localizedString = LocalizedString.fromJson(json);
         assertThat(localizedString.getValue(Locale.ENGLISH)).isEqualTo("en");
         assertThat(localizedString.getValue(LOCALE_RU)).isEqualTo("ru");
+    }
+
+    @Test
+    void getValuesShouldReturnUnmodifiableMap() {
+        LocalizedString localizedString = new LocalizedString(
+                ImmutableMap.of(Locale.ENGLISH, "en")
+        );
+
+        assertThat(localizedString.getValues())
+                .containsEntry(Locale.ENGLISH, "en");
+        assertThatThrownBy(() -> localizedString.getValues().put(LOCALE_RU, "ru"))
+                .isInstanceOf(UnsupportedOperationException.class);
     }
 }
