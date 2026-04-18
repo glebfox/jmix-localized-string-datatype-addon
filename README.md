@@ -84,7 +84,7 @@ The `value_localizedStringEdit` action is represented by [LocalizedStringEditAct
 
 ### Properties
 
-* `multiline` - sets whether to use a multi-line text input component. `TextArea` is requested from `UiComponents` for multi-line text input, `TextField` otherwise. `false` by default. If an entity attribute is annotated with `@Lob`, multi-line text input is used. For example:
+* `multiline` - sets whether to use a multi-line text input component. `TextArea` is used for multi-line text input, `TextField` otherwise. `false` by default. If an entity attribute is annotated with `@Lob`, multi-line text input is used. For example:
 
 ```java
 @Lob
