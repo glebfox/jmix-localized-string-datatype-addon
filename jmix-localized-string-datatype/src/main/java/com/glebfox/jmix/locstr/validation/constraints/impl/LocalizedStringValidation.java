@@ -32,7 +32,7 @@ final class LocalizedStringValidation {
         return values.isEmpty()
                 ? List.of("")
                 : values.stream()
-                .map(value -> value != null ? value : "")
-                .toList();
+                  .map(value -> value != null ? value : "")
+                  .toList();
     }
 }

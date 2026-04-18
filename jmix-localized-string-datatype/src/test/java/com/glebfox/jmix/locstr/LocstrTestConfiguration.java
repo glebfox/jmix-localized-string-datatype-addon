@@ -17,6 +17,7 @@
 package com.glebfox.jmix.locstr;
 
 import io.jmix.core.annotation.JmixModule;
+import io.jmix.core.annotation.MessageSourceBasenames;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -33,6 +34,7 @@ import javax.sql.DataSource;
 @EnableAutoConfiguration
 @Import(LocstrConfiguration.class)
 @PropertySource("classpath:/com/glebfox/jmix/locstr/test-app.properties")
+@MessageSourceBasenames("com/glebfox/jmix/locstr/test/messages")
 @JmixModule(id = "com.glebfox.jmix.locstr.test", dependsOn = LocstrConfiguration.class)
 public class LocstrTestConfiguration {
 

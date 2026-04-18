@@ -20,17 +20,18 @@ import com.glebfox.jmix.locstr.datatype.LocalizedString;
 import io.jmix.flowui.component.validation.bean.BeanPropertyValidator;
 import org.springframework.lang.Nullable;
 
-import java.util.HashMap;
+import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
 
-public record LocalizedStringBeanPropertyValidatorAdapter(BeanPropertyValidator validator, Locale locale)
+public record BeanValidatorAdapter(BeanPropertyValidator validator, Collection<Locale> locales)
         implements io.jmix.flowui.component.validation.Validator<String> {
 
     @Override
     public void accept(@Nullable String value) {
-        Map<Locale, String> values = new HashMap<>();
-        values.put(locale, value);
+        Map<Locale, String> values = new LinkedHashMap<>();
+        locales.forEach(locale -> values.put(locale, value));
 
         validator.accept(new LocalizedString(values));
     }

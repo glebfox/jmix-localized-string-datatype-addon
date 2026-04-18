@@ -29,6 +29,9 @@ import java.lang.annotation.Target;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+/**
+ * Checks that every localized value matches the specified regular expression.
+ */
 @Documented
 @Constraint(validatedBy = LocalizedStringPatternValidator.class)
 @Target({ElementType.METHOD, ElementType.FIELD, ElementType.ANNOTATION_TYPE,
@@ -37,7 +40,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Repeatable(LocalizedStringPattern.List.class)
 public @interface LocalizedStringPattern {
 
-    String message() default "{msg://com.glebfox.jmix.locstr/validation.constraints.LocalizedStringPattern.message}";
+    String message() default "{msg://validation.constraints.LocalizedStringPattern.message}";
 
     Class<?>[] groups() default {};
 

@@ -84,7 +84,7 @@ The `value_localizedStringEdit` action is represented by [LocalizedStringEditAct
 
 ### Properties
 
-* `multiline` - sets whether to use a multi-line text input component. `TextArea` is used for multi-line text input, `TextField` otherwise. `false` by default. If an entity attribute is annotated with `@Lob`, multi-line text input is used. For example:
+* `multiline` - sets whether to use a multi-line text input component. `TextArea` is requested from `UiComponents` for multi-line text input, `TextField` otherwise. `false` by default. If an entity attribute is annotated with `@Lob`, multi-line text input is used. For example:
 
 ```java
 @Lob
@@ -139,6 +139,7 @@ The add-on provides Bean Validation annotations for `LocalizedString` attributes
 * `@LocalizedStringSize`
 * `@LocalizedStringLength`
 * `@LocalizedStringPattern`
+* `@LocalizedStringNotNull`
 * `@LocalizedStringNotEmpty`
 * `@LocalizedStringNotBlank`
 
@@ -151,7 +152,7 @@ For example:
 private LocalizedString name;
 ```
 
-Every stored localized value is validated. When the edit dialog is used for an entity attribute, these constraints are applied to each locale field separately. Standard `@NotNull` can still be used for the attribute itself.
+Every stored localized value is validated. `@LocalizedStringNotNull` also checks that a value is stored for every configured application locale. When the edit dialog is used for an entity attribute, these constraints are applied to each locale field separately. Standard `@NotNull` can still be used for the attribute itself when only the `LocalizedString` object reference should be checked.
 
 Additionally, you can add a validator that checks the value of every field in the edit dialog. For example:
 

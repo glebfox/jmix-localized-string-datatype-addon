@@ -16,7 +16,7 @@
 
 package com.glebfox.jmix.locstr.validation.constraints;
 
-import com.glebfox.jmix.locstr.validation.constraints.impl.LocalizedStringLengthValidator;
+import com.glebfox.jmix.locstr.validation.constraints.impl.LocalizedStringNotNullValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
@@ -29,25 +29,21 @@ import java.lang.annotation.Target;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Checks that every localized value has a length between the specified boundaries.
+ * Checks that a localized string contains a non-null value for every configured application locale.
  */
 @Documented
-@Constraint(validatedBy = LocalizedStringLengthValidator.class)
+@Constraint(validatedBy = LocalizedStringNotNullValidator.class)
 @Target({ElementType.METHOD, ElementType.FIELD, ElementType.ANNOTATION_TYPE,
         ElementType.CONSTRUCTOR, ElementType.PARAMETER, ElementType.TYPE_USE})
 @Retention(RUNTIME)
-@Repeatable(LocalizedStringLength.List.class)
-public @interface LocalizedStringLength {
+@Repeatable(LocalizedStringNotNull.List.class)
+public @interface LocalizedStringNotNull {
 
-    String message() default "{msg://validation.constraints.LocalizedStringLength.message}";
+    String message() default "{msg://validation.constraints.LocalizedStringNotNull.message}";
 
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
-
-    int min() default 0;
-
-    int max() default Integer.MAX_VALUE;
 
     @Documented
     @Target({ElementType.METHOD, ElementType.FIELD, ElementType.ANNOTATION_TYPE,
@@ -55,6 +51,6 @@ public @interface LocalizedStringLength {
     @Retention(RUNTIME)
     @interface List {
 
-        LocalizedStringLength[] value();
+        LocalizedStringNotNull[] value();
     }
 }

@@ -41,6 +41,11 @@ public class LocalizedString implements Serializable {
         return values.getOrDefault(locale, "");
     }
 
+    /**
+     * Returns all stored localized values.
+     *
+     * @return unmodifiable map of locale to localized value
+     */
     public Map<Locale, String> getValues() {
         return Collections.unmodifiableMap(values);
     }

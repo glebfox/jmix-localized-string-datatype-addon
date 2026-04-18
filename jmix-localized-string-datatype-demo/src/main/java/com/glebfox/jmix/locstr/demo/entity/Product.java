@@ -17,6 +17,9 @@
 package com.glebfox.jmix.locstr.demo.entity;
 
 import com.glebfox.jmix.locstr.datatype.LocalizedString;
+import com.glebfox.jmix.locstr.validation.constraints.LocalizedStringNotBlank;
+import com.glebfox.jmix.locstr.validation.constraints.LocalizedStringNotNull;
+import com.glebfox.jmix.locstr.validation.constraints.LocalizedStringPattern;
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
 import io.jmix.core.metamodel.annotation.InstanceName;
 import io.jmix.core.metamodel.annotation.JmixEntity;
@@ -34,11 +37,14 @@ public class Product {
     @Id
     private UUID id;
 
+    @LocalizedStringPattern(regexp = "^[a-zA-Z0-9а-яА-Я \\t\\r\\f-]+$")
     @InstanceName
     @Column(name = "NAME", nullable = false)
     @NotNull
+    @LocalizedStringNotNull
     private LocalizedString name;
 
+    @LocalizedStringNotBlank
     @Lob
     @Column(name = "DESCRIPTION")
     private LocalizedString description;

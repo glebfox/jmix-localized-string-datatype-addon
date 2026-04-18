@@ -28,6 +28,9 @@ import java.lang.annotation.Target;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+/**
+ * Checks that every localized value has a length between the specified boundaries.
+ */
 @Documented
 @Constraint(validatedBy = LocalizedStringSizeValidator.class)
 @Target({ElementType.METHOD, ElementType.FIELD, ElementType.ANNOTATION_TYPE,
@@ -36,7 +39,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Repeatable(LocalizedStringSize.List.class)
 public @interface LocalizedStringSize {
 
-    String message() default "{msg://com.glebfox.jmix.locstr/validation.constraints.LocalizedStringSize.message}";
+    String message() default "{msg://validation.constraints.LocalizedStringSize.message}";
 
     Class<?>[] groups() default {};
 

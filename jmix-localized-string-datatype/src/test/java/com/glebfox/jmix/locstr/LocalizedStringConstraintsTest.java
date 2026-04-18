@@ -20,6 +20,7 @@ import com.glebfox.jmix.locstr.datatype.LocalizedString;
 import com.glebfox.jmix.locstr.validation.constraints.LocalizedStringLength;
 import com.glebfox.jmix.locstr.validation.constraints.LocalizedStringNotBlank;
 import com.glebfox.jmix.locstr.validation.constraints.LocalizedStringNotEmpty;
+import com.glebfox.jmix.locstr.validation.constraints.LocalizedStringNotNull;
 import com.glebfox.jmix.locstr.validation.constraints.LocalizedStringPattern;
 import com.glebfox.jmix.locstr.validation.constraints.LocalizedStringSize;
 import jakarta.validation.ConstraintViolation;
@@ -36,7 +37,7 @@ import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
+@SpringBootTest(properties = "jmix.core.available-locales=en,ru_RU")
 @SuppressWarnings({"unused", "ClassCanBeRecord"})
 public class LocalizedStringConstraintsTest {
 
@@ -84,9 +85,30 @@ public class LocalizedStringConstraintsTest {
     }
 
     @Test
+    void validationMessagesShouldBeLocalized() {
+        Set<ConstraintViolation<Object>> violations = validator.validate(new PatternBean(localizedString("ABC")));
+
+        assertThat(violations)
+                .singleElement()
+                .extracting(ConstraintViolation::getMessage)
+                .asString()
+                .isEqualTo("Localized value must match \"[A-Z]{3}-\\d{2}\"");
+    }
+
+    @Test
     void patternShouldSupportFlags() {
         assertValid(new CaseInsensitivePatternBean(localizedString("abc")));
         assertValid(new CaseInsensitivePatternBean(localizedString("abc", "ABC")));
+    }
+
+    @Test
+    void notNullShouldRequireEveryAvailableLocaleToBeStored() {
+        assertValid(new NotNullBean(localizedString("value", "")));
+
+        assertInvalid(new NotNullBean(null));
+        assertInvalid(new NotNullBean(emptyLocalizedString()));
+        assertInvalid(new NotNullBean(localizedString("value")));
+        assertInvalid(new NotNullBean(localizedString("value", null)));
     }
 
     @Test
@@ -120,6 +142,8 @@ public class LocalizedStringConstraintsTest {
         assertThat(validator.validateValue(SizeBean.class, "value", localizedString("AB")))
                 .isEmpty();
         assertThat(validator.validateValue(SizeBean.class, "value", localizedString("A")))
+                .hasSize(1);
+        assertThat(validator.validateValue(NotNullBean.class, "value", localizedString("value")))
                 .hasSize(1);
     }
 
@@ -216,6 +240,20 @@ public class LocalizedStringConstraintsTest {
         }
 
         @LocalizedStringNotEmpty
+        public LocalizedString getValue() {
+            return value;
+        }
+    }
+
+    private static class NotNullBean {
+
+        private final LocalizedString value;
+
+        private NotNullBean(LocalizedString value) {
+            this.value = value;
+        }
+
+        @LocalizedStringNotNull
         public LocalizedString getValue() {
             return value;
         }

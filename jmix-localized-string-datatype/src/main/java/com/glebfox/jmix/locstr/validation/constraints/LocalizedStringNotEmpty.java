@@ -28,6 +28,9 @@ import java.lang.annotation.Target;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+/**
+ * Checks that every localized value is not empty.
+ */
 @Documented
 @Constraint(validatedBy = LocalizedStringNotEmptyValidator.class)
 @Target({ElementType.METHOD, ElementType.FIELD, ElementType.ANNOTATION_TYPE,
@@ -36,7 +39,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Repeatable(LocalizedStringNotEmpty.List.class)
 public @interface LocalizedStringNotEmpty {
 
-    String message() default "{msg://com.glebfox.jmix.locstr/validation.constraints.LocalizedStringNotEmpty.message}";
+    String message() default "{msg://validation.constraints.LocalizedStringNotEmpty.message}";
 
     Class<?>[] groups() default {};
 

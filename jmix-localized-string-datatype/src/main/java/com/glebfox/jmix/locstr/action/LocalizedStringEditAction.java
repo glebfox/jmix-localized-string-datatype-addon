@@ -17,13 +17,11 @@
 package com.glebfox.jmix.locstr.action;
 
 import com.glebfox.jmix.locstr.datatype.LocalizedString;
-import com.glebfox.jmix.locstr.validation.LocalizedStringBeanPropertyValidatorAdapter;
+import com.glebfox.jmix.locstr.validation.BeanValidatorAdapter;
 import com.glebfox.jmix.locstr.validation.Validator;
 import com.glebfox.jmix.locstr.validation.ValidatorAdapter;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
 import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -90,7 +88,7 @@ public class LocalizedStringEditAction
     protected Button cancelButton;
 
     protected LinkedHashMap<Locale, String> availableLocales;
-    protected Cache<Locale, HasValueAndElement<?, String>> fieldCache;
+    protected Map<Locale, HasValueAndElement<?, String>> fields = new LinkedHashMap<>();
     protected List<Validator> validators;
 
     protected Boolean multiline;
@@ -188,9 +186,9 @@ public class LocalizedStringEditAction
      *
      * @param multiline {@code true} to use a multi-line text
      *                  input component, {@code false} otherwise
-     * @apiNote this setting is applied before the first time the edit
-     * dialog is opened, as fields are cached. {@link TextArea} is used
-     * for multi-line text input, {@link TextField} otherwise
+     * @apiNote this setting is applied when the edit dialog is opened.
+     * {@link TextArea} is requested from {@link UiComponents} for
+     * multi-line text input, {@link TextField} otherwise
      */
     public void setMultiline(boolean multiline) {
         this.multiline = multiline;
@@ -203,9 +201,9 @@ public class LocalizedStringEditAction
      * @param multiline {@code true} to use a multi-line text
      *                  input component, {@code false} otherwise
      * @return this object
-     * @apiNote this setting is applied before the first time the edit
-     * dialog is opened, as fields are cached. {@link TextArea} is used
-     * for multi-line text input, {@link TextField} otherwise
+     * @apiNote this setting is applied when the edit dialog is opened.
+     * {@link TextArea} is requested from {@link UiComponents} for
+     * multi-line text input, {@link TextField} otherwise
      */
     public LocalizedStringEditAction withMultiline(boolean multiline) {
         setMultiline(multiline);
@@ -797,10 +795,9 @@ public class LocalizedStringEditAction
     public void execute() {
         checkTarget();
 
-        // Fields are not recreated because they are cached, but
-        // they are correctly initialized with new values
         dialog.removeAll();
         dialog.add(createContent());
+        updateSaveButtonState();
 
         // Clear flag after content is created because fields are
         // initialized with a default value
@@ -857,8 +854,7 @@ public class LocalizedStringEditAction
     }
 
     protected void doSave(ClickEvent<Button> event) {
-        Map<Locale, String> localizedValues = getFields().asMap()
-                .entrySet().stream()
+        Map<Locale, String> localizedValues = getFields().entrySet().stream()
                 .collect(Collectors.toMap(Map.Entry::getKey,
                         entry -> entry.getValue().getValue())
                 );
@@ -903,6 +899,7 @@ public class LocalizedStringEditAction
         layout.setAlignItems(FlexComponent.Alignment.STRETCH);
         layout.setClassName("localized-string-editor-content");
 
+        fields = new LinkedHashMap<>();
         availableLocales.keySet().stream()
                 .map(locale -> ((Component) getField(locale)))
                 .forEach(layout::add);
@@ -911,12 +908,8 @@ public class LocalizedStringEditAction
     }
 
     protected HasValueAndElement<?, String> getField(Locale locale) {
-        HasValueAndElement<?, String> field = getFields().getIfPresent(locale);
-        if (field == null) {
-            field = createField(locale);
-            getFields().put(locale, field);
-        }
-
+        HasValueAndElement<?, String> field = createField(locale);
+        getFields().put(locale, field);
         field.setValue(getInitialValue(locale));
         return field;
     }
@@ -959,16 +952,17 @@ public class LocalizedStringEditAction
     }
 
     protected void onFieldInvalidChanged(PropertyChangeEvent propertyChangeEvent) {
-        saveButton.setEnabled(!hasInvalidFields());
+        updateSaveButtonState();
     }
 
-    protected boolean hasInvalidFields() {
-        return getFields().asMap().entrySet()
+    protected void updateSaveButtonState() {
+        boolean hasInvalidFields = getFields().entrySet()
                 .stream()
                 .anyMatch(entry ->
                         entry.getValue() instanceof HasValidation hasValidation
                                 && hasValidation.isInvalid()
                 );
+        saveButton.setEnabled(!hasInvalidFields);
     }
 
     protected void initMultilineField(HasValueAndElement<?, String> field) {
@@ -1038,7 +1032,7 @@ public class LocalizedStringEditAction
                                   Locale locale,
                                   @Nullable MetaPropertyPath metaPropertyPath) {
         if (field instanceof SupportsValidation<?>) {
-            initBeanValidator((SupportsValidation<String>) field, locale, metaPropertyPath);
+            initBeanValidator((SupportsValidation<String>) field, metaPropertyPath);
         }
 
         if (validators != null
@@ -1049,7 +1043,6 @@ public class LocalizedStringEditAction
     }
 
     protected void initBeanValidator(SupportsValidation<String> field,
-                                     Locale locale,
                                      @Nullable MetaPropertyPath metaPropertyPath) {
         if (metaPropertyPath == null) {
             return;
@@ -1062,11 +1055,15 @@ public class LocalizedStringEditAction
         }
 
         MetaProperty metaProperty = metaPropertyPath.getMetaProperty();
+        if (!LocalizedString.class.isAssignableFrom(metaProperty.getJavaType())) {
+            return;
+        }
+
         BeanPropertyValidator beanPropertyValidator = applicationContext.getBean(
                 BeanPropertyValidator.class,
                 enclosingJavaClass,
                 metaProperty.getName());
-        field.addValidator(new LocalizedStringBeanPropertyValidatorAdapter(beanPropertyValidator, locale));
+        field.addValidator(new BeanValidatorAdapter(beanPropertyValidator, availableLocales.keySet()));
     }
 
     @SuppressWarnings("unchecked")
@@ -1075,14 +1072,8 @@ public class LocalizedStringEditAction
         return localizedString != null ? localizedString.getValue(locale) : "";
     }
 
-    protected Cache<Locale, HasValueAndElement<?, String>> getFields() {
-        if (fieldCache == null) {
-            fieldCache = CacheBuilder.newBuilder()
-                    .maximumSize(availableLocales.size())
-                    .build();
-        }
-
-        return fieldCache;
+    protected Map<Locale, HasValueAndElement<?, String>> getFields() {
+        return fields;
     }
 
     protected boolean isMac() {
