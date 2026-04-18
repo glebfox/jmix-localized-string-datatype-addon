@@ -17,13 +17,17 @@
 package com.glebfox.jmix.locstr.entity;
 
 import com.glebfox.jmix.locstr.datatype.LocalizedString;
+import com.glebfox.jmix.locstr.validation.constraints.LocalizedStringNotBlank;
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
 import io.jmix.core.metamodel.annotation.InstanceName;
 import io.jmix.core.metamodel.annotation.JmixEntity;
+import io.jmix.core.metamodel.annotation.JmixProperty;
+import io.jmix.core.validation.group.UiComponentChecks;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import jakarta.persistence.Version;
 
 import java.util.UUID;
@@ -45,6 +49,11 @@ public class LocalizedStringTestEntity {
     @InstanceName
     @Column(name = "NAME", nullable = false)
     private LocalizedString name;
+
+    @LocalizedStringNotBlank(groups = UiComponentChecks.class)
+    @JmixProperty
+    @Transient
+    private LocalizedString validationName;
 
     public UUID getId() {
         return id;
@@ -68,5 +77,15 @@ public class LocalizedStringTestEntity {
 
     public void setName(LocalizedString name) {
         this.name = name;
+    }
+
+    @SuppressWarnings("unused")
+    public LocalizedString getValidationName() {
+        return validationName;
+    }
+
+    @SuppressWarnings("unused")
+    public void setValidationName(LocalizedString validationName) {
+        this.validationName = validationName;
     }
 }

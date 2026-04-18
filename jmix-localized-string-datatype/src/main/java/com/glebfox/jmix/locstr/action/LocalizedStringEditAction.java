@@ -17,6 +17,7 @@
 package com.glebfox.jmix.locstr.action;
 
 import com.glebfox.jmix.locstr.datatype.LocalizedString;
+import com.glebfox.jmix.locstr.validation.LocalizedStringBeanPropertyValidatorAdapter;
 import com.glebfox.jmix.locstr.validation.Validator;
 import com.glebfox.jmix.locstr.validation.ValidatorAdapter;
 import com.google.common.base.Preconditions;
@@ -37,7 +38,10 @@ import com.vaadin.flow.function.ValueProvider;
 import com.vaadin.flow.shared.Registration;
 import io.jmix.core.CoreProperties;
 import io.jmix.core.MessageTools;
+import io.jmix.core.MetadataTools;
 import io.jmix.core.Messages;
+import io.jmix.core.entity.KeyValueEntity;
+import io.jmix.core.metamodel.model.MetaClass;
 import io.jmix.core.metamodel.model.MetaProperty;
 import io.jmix.core.metamodel.model.MetaPropertyPath;
 import io.jmix.flowui.Dialogs;
@@ -49,6 +53,7 @@ import io.jmix.flowui.component.HasRequired;
 import io.jmix.flowui.component.PickerComponent;
 import io.jmix.flowui.component.SupportsValidation;
 import io.jmix.flowui.component.UiComponentUtils;
+import io.jmix.flowui.component.validation.bean.BeanPropertyValidator;
 import io.jmix.flowui.data.EntityValueSource;
 import io.jmix.flowui.data.ValueSource;
 import io.jmix.flowui.kit.action.ActionVariant;
@@ -78,6 +83,7 @@ public class LocalizedStringEditAction
     protected Messages messages;
     protected UiComponents uiComponents;
     protected MessageTools messageTools;
+    protected MetadataTools metadataTools;
 
     protected Dialog dialog;
     protected Button saveButton;
@@ -143,6 +149,11 @@ public class LocalizedStringEditAction
     @Autowired
     public void setMessageTools(MessageTools messageTools) {
         this.messageTools = messageTools;
+    }
+
+    @Autowired
+    public void setMetadataTools(MetadataTools metadataTools) {
+        this.metadataTools = metadataTools;
     }
 
     @Autowired
@@ -944,7 +955,7 @@ public class LocalizedStringEditAction
         }
 
         initRequired(field, metaPropertyPath);
-        initValidators(field, locale);
+        initValidators(field, locale, metaPropertyPath);
     }
 
     protected void onFieldInvalidChanged(PropertyChangeEvent propertyChangeEvent) {
@@ -971,7 +982,6 @@ public class LocalizedStringEditAction
     @Nullable
     protected MetaPropertyPath findMetaPropertyPath() {
         ValueSource<LocalizedString> valueSource = target.getValueSource();
-        MetaPropertyPath metaPropertyPath = null;
         return valueSource instanceof EntityValueSource<?, ?> entityValueSource
                 ? entityValueSource.getMetaPropertyPath()
                 : null;
@@ -1024,12 +1034,39 @@ public class LocalizedStringEditAction
     }
 
     @SuppressWarnings("unchecked")
-    protected void initValidators(HasValueAndElement<?, String> field, Locale locale) {
+    protected void initValidators(HasValueAndElement<?, String> field,
+                                  Locale locale,
+                                  @Nullable MetaPropertyPath metaPropertyPath) {
+        if (field instanceof SupportsValidation<?>) {
+            initBeanValidator((SupportsValidation<String>) field, locale, metaPropertyPath);
+        }
+
         if (validators != null
-                && field instanceof SupportsValidation) {
+                && field instanceof SupportsValidation<?>) {
             validators.forEach(validator ->
                     ((SupportsValidation<String>) field).addValidator(new ValidatorAdapter(validator, locale)));
         }
+    }
+
+    protected void initBeanValidator(SupportsValidation<String> field,
+                                     Locale locale,
+                                     @Nullable MetaPropertyPath metaPropertyPath) {
+        if (metaPropertyPath == null) {
+            return;
+        }
+
+        MetaClass enclosingMetaClass = metadataTools.getPropertyEnclosingMetaClass(metaPropertyPath);
+        Class<?> enclosingJavaClass = enclosingMetaClass.getJavaClass();
+        if (enclosingJavaClass == KeyValueEntity.class) {
+            return;
+        }
+
+        MetaProperty metaProperty = metaPropertyPath.getMetaProperty();
+        BeanPropertyValidator beanPropertyValidator = applicationContext.getBean(
+                BeanPropertyValidator.class,
+                enclosingJavaClass,
+                metaProperty.getName());
+        field.addValidator(new LocalizedStringBeanPropertyValidatorAdapter(beanPropertyValidator, locale));
     }
 
     @SuppressWarnings("unchecked")

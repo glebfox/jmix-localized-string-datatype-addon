@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - Support sorting `LocalizedString` values by the user's current locale.
 - Configuration properties to disable the add-on sorting customizations.
+- Bean Validation annotations for `LocalizedString` values.
 
 ### Changed
 

@@ -21,6 +21,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -38,6 +39,10 @@ public class LocalizedString implements Serializable {
 
     public String getValue(Locale locale) {
         return values.getOrDefault(locale, "");
+    }
+
+    public Map<Locale, String> getValues() {
+        return Collections.unmodifiableMap(values);
     }
 
     public String toJson() {
