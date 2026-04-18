@@ -22,12 +22,16 @@ dependencies {
     implementation 'io.jmix.flowui:jmix-flowui-starter'
     implementation 'io.jmix.flowui:jmix-flowui-themes'
 
+    annotationProcessor platform('io.jmix.bom:jmix-bom:2.8.0')
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
     testImplementation 'org.springframework.boot:spring-boot-starter-web'
 
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testRuntimeOnly 'com.h2database:h2'
     testRuntimeOnly 'org.hsqldb:hsqldb'
 }
 

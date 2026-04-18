@@ -17,6 +17,7 @@
 package com.glebfox.jmix.locstr;
 
 import io.jmix.core.annotation.JmixModule;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -35,12 +36,14 @@ import javax.sql.DataSource;
 @JmixModule(id = "com.glebfox.jmix.locstr.test", dependsOn = LocstrConfiguration.class)
 public class LocstrTestConfiguration {
 
+    static final String DATABASE_TYPE_PROPERTY = "locstr.test.database-type";
+
     @Bean
     @Primary
-    DataSource dataSource() {
+    DataSource dataSource(@Value("${" + DATABASE_TYPE_PROPERTY + ":H2}") EmbeddedDatabaseType databaseType) {
         return new EmbeddedDatabaseBuilder()
                 .generateUniqueName(true)
-                .setType(EmbeddedDatabaseType.HSQL)
+                .setType(databaseType)
                 .build();
     }
 }

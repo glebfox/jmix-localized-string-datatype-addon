@@ -59,6 +59,25 @@ To edit localized value, add action with `type="value_localizedStringEdit"` to t
 
 **NOTE:** The actual value stored in the database is a JSON string. For example: `{"en":"Keyboard","ru_RU":"Клавиатура"}`
 
+## Sorting
+
+Sorting by `LocalizedString` attributes is supported. The add-on sorts by the value for the user's current locale. If a `LocalizedString` does not contain a value for the current locale, an empty string is used for sorting.
+
+This works for database-backed sorting and for in-memory sorting in Flow UI data containers.
+
+### HSQLDB
+
+HSQLDB has a database-level limitation: it cannot apply the locale-specific sorting expression to `CLOB` columns. For HSQLDB, the add-on falls back to sorting the raw JSON string stored in the column. As a result, database-level sorting order may differ from the order for the user's current locale. In-memory sorting still uses the value for the user's current locale.
+
+### Sorting Configuration
+
+The add-on registers global Jmix sorting customizations by default. If an application provides its own `JpqlSortExpressionProvider` or `SorterFactory`, these customizations can be disabled:
+
+```properties
+jmix.locstr.sorting.database.enabled=false
+jmix.locstr.sorting.in-memory.enabled=false
+```
+
 ## LocalizedStringEditAction
 
 The `value_localizedStringEdit` action is represented by [LocalizedStringEditAction.java](jmix-localized-string-datatype/src/main/java/com/glebfox/jmix/locstr/action/LocalizedStringEditAction.java) and opens a dialog that edits a localized string value represented by the `LocalizedString` datatype.
@@ -149,7 +168,6 @@ private HasValueAndElement<?, String> descriptionFieldFieldProvider(final FieldG
 Since the actual value stored in the database is a JSON string (`CLOB`), the following Jmix functionalities do not work with `LocalizedString`:
 
 * `GenericFilter` and `PropertyFilter` components.
-* Sorting is applied to the entire JSON string value, not just the value for the current locale. 
 
 ## License
 
