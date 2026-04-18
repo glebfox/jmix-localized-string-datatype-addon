@@ -15,12 +15,23 @@
   ~ limitations under the License.
   -->
 
-<menu-config xmlns="http://jmix.io/schema/flowui/menu">
-
-    <menu id="application" title="msg://com.glebfox.jmix.locstr.demo/menu.application.title" opened="true">
-        <item view="User.list" title="msg://com.glebfox.jmix.locstr.demo.view.user/UserListView.title"/>
-        <item view="locstr_Product.list" title="msg://com.glebfox.jmix.locstr.demo.view.product/productListView.title"/>
-        <item view="locstr_SandboxView" title="msg://com.glebfox.jmix.locstr.demo.view.sandbox/sandboxView.title"/>
-    </menu>
-
-</menu-config>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://sandboxView.title">
+    <data>
+        <collection id="productsDc" class="com.glebfox.jmix.locstr.demo.entity.Product">
+            <loader id="productsDl" readOnly="true">
+                <query>
+                    <![CDATA[select e from locstr_Product e]]>
+                </query>
+            </loader>
+            <fetchPlan extends="_base"/>
+        </collection>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+    </facets>
+    <layout>
+        <entityComboBox metaClass="locstr_Product"
+                        itemsContainer="productsDc"/>
+    </layout>
+</view>
