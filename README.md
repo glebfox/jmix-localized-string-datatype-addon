@@ -4,7 +4,7 @@
 
 # Jmix LocalizedString Datatype
 
-This add-on provides a custom [Datatype](https://docs.jmix.io/jmix/data-model/data-types.html) and related action for the [ValuePicker](https://docs.jmix.io/jmix/flow-ui/vc/components/valuePicker.html) component for storing and editing localized string values.
+This add-on provides a custom [Datatype](https://docs.jmix.io/jmix/data-model/data-types.html), sorting support, Bean Validation constraints, and a related action for the [ValuePicker](https://docs.jmix.io/jmix/flow-ui/vc/components/valuePicker.html) component for storing and editing localized string values.
 
 The value displayed in visual components depends on the user's current locale.
 
@@ -19,17 +19,17 @@ The following table shows which version of the add-on is compatible with which v
 |--------------|----------------|----------------------------------------------------------------------|
 | 2.3.0+       | 1.0.0          | com.glebfox.jmix.locstr:jmix-localized-string-datatype-starter:1.0.0 |
 
-For manual installation, add the following dependencies to your `build.gradle`:
+For manual installation, add the following dependency to your `build.gradle`:
 
 ```groovy
 implementation 'com.glebfox.jmix.locstr:jmix-localized-string-datatype-starter:<addon-version>'
 ```
 
-## Using the Addon
+## Using the Add-on
 
-The `LocalizedString` datatype is represented by three classes: 
+The `LocalizedString` datatype is represented by three classes:
 
-* [LocalizedString.java](jmix-localized-string-datatype/src/main/java/com/glebfox/jmix/locstr/datatype/LocalizedString.java) - custom Java class used as a type of entity attributes. 
+* [LocalizedString.java](jmix-localized-string-datatype/src/main/java/com/glebfox/jmix/locstr/datatype/LocalizedString.java) - custom Java class used as a type of entity attributes.
 * [LocalizedStringDatatype.java](jmix-localized-string-datatype/src/main/java/com/glebfox/jmix/locstr/datatype/LocalizedStringDatatype.java) - a `Datatype` implementation class for `LocalizedString`.
 * [LocalizedStringConverter.java](jmix-localized-string-datatype/src/main/java/com/glebfox/jmix/locstr/datatype/LocalizedStringConverter.java) - a class that converts entity attribute state into database column representation and back again.
 
@@ -37,14 +37,14 @@ You can define an entity attribute with the `LocalizedString` datatype using Stu
 
 ![Attribute Datatype](/doc/img/attribute-datatype.png)
 
-As a result, Studio generates the following attribute definition: 
+As a result, Studio generates the following attribute definition:
 
 ```java
 @Column(name = "NAME", nullable = false)
 private LocalizedString name;
 ```
 
-To edit localized value, add action with `type="value_localizedStringEdit"` to the `ValuePicker` component. For example:
+To edit a localized value, add an action with `type="value_localizedStringEdit"` to the `ValuePicker` component. For example:
 
 ```xml
 <valuePicker id="nameField" property="name">
@@ -84,7 +84,7 @@ The `value_localizedStringEdit` action is represented by [LocalizedStringEditAct
 
 ### Properties
 
-* `multiline` - sets whether to use a multi-line text input component. `TextArea` is used for multi-line text input, `TextField` otherwise. `false` by default. If an entity attribute is annotated with `@Lob`, multi-line text input is used. For example:
+* `multiline` - sets whether to use a multi-line text input component. `TextArea` is used for multi-line text input, `TextField` otherwise. If the property is not set explicitly and the entity attribute is annotated with `@Lob`, multi-line text input is used. For example:
 
 ```java
 @Lob
@@ -136,12 +136,12 @@ If the target `ValuePicker` of `LocalizedStringEditAction` is bound to a require
 
 The add-on provides Bean Validation annotations for `LocalizedString` attributes:
 
-* `@LocalizedStringSize`
-* `@LocalizedStringLength`
-* `@LocalizedStringPattern`
-* `@LocalizedStringNotNull`
-* `@LocalizedStringNotEmpty`
-* `@LocalizedStringNotBlank`
+* [`@LocalizedStringSize`](jmix-localized-string-datatype/src/main/java/com/glebfox/jmix/locstr/validation/constraints/LocalizedStringSize.java) checks that every localized value length is between `min` and `max`. A `null` `LocalizedString` is valid.
+* [`@LocalizedStringLength`](jmix-localized-string-datatype/src/main/java/com/glebfox/jmix/locstr/validation/constraints/LocalizedStringLength.java) checks that every localized value length is between `min` and `max`. A `null` `LocalizedString` is valid.
+* [`@LocalizedStringPattern`](jmix-localized-string-datatype/src/main/java/com/glebfox/jmix/locstr/validation/constraints/LocalizedStringPattern.java) checks that every localized value matches `regexp`. A `null` `LocalizedString` is valid.
+* [`@LocalizedStringNotNull`](jmix-localized-string-datatype/src/main/java/com/glebfox/jmix/locstr/validation/constraints/LocalizedStringNotNull.java) checks that a non-null localized value is stored for every configured application locale.
+* [`@LocalizedStringNotEmpty`](jmix-localized-string-datatype/src/main/java/com/glebfox/jmix/locstr/validation/constraints/LocalizedStringNotEmpty.java) checks that every localized value is not empty. A `null` `LocalizedString` and an empty set of localized values are invalid.
+* [`@LocalizedStringNotBlank`](jmix-localized-string-datatype/src/main/java/com/glebfox/jmix/locstr/validation/constraints/LocalizedStringNotBlank.java) checks that every localized value contains at least one non-whitespace character. A `null` `LocalizedString` and an empty set of localized values are invalid.
 
 For example:
 
@@ -152,7 +152,7 @@ For example:
 private LocalizedString name;
 ```
 
-Every stored localized value is validated. `@LocalizedStringNotNull` also checks that a value is stored for every configured application locale. When the edit dialog is used for an entity attribute, these constraints are applied to each locale field separately. Standard `@NotNull` can still be used for the attribute itself when only the `LocalizedString` object reference should be checked.
+When the edit dialog is used for an entity attribute, these constraints are applied to each locale field separately. Standard `@NotNull` can still be used for the attribute itself when only the `LocalizedString` object reference should be checked.
 
 Additionally, you can add a validator that checks the value of every field in the edit dialog. For example:
 
@@ -170,7 +170,7 @@ private void descriptionFieldValidator(final ValidationContext validationContext
 
 ### Field Provider
 
-It's possible tio change edit fields by setting the field provider, which will return a component for a given `FieldGenerationContext`. For example:
+It's possible to change edit fields by setting the field provider, which will return a component for a given `FieldGenerationContext`. For example:
 
 ```java
 @Install(to = "descriptionField.localizedStringEdit", subject = "fieldProvider")

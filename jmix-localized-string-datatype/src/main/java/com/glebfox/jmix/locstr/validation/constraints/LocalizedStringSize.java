@@ -30,6 +30,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Checks that every localized value has a length between the specified boundaries.
+ * <p>
+ * {@code null} localized strings are valid. Stored {@code null} localized
+ * values are validated as empty strings.
  */
 @Documented
 @Constraint(validatedBy = LocalizedStringSizeValidator.class)
@@ -39,22 +42,56 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Repeatable(LocalizedStringSize.List.class)
 public @interface LocalizedStringSize {
 
+    /**
+     * Defines the validation error message template.
+     *
+     * @return validation error message template
+     */
     String message() default "{msg://validation.constraints.LocalizedStringSize.message}";
 
+    /**
+     * Defines validation groups for this constraint.
+     *
+     * @return validation groups
+     */
     Class<?>[] groups() default {};
 
+    /**
+     * Defines payload objects attached to this constraint.
+     *
+     * @return constraint payload
+     */
     Class<? extends Payload>[] payload() default {};
 
+    /**
+     * Defines the minimum accepted localized value length.
+     *
+     * @return minimum accepted localized value length
+     */
     int min() default 0;
 
+    /**
+     * Defines the maximum accepted localized value length.
+     *
+     * @return maximum accepted localized value length
+     */
     int max() default Integer.MAX_VALUE;
 
+    /**
+     * Defines several {@link LocalizedStringSize} constraints on the same
+     * element.
+     */
     @Documented
     @Target({ElementType.METHOD, ElementType.FIELD, ElementType.ANNOTATION_TYPE,
             ElementType.CONSTRUCTOR, ElementType.PARAMETER, ElementType.TYPE_USE})
     @Retention(RUNTIME)
     @interface List {
 
+        /**
+         * Returns constraints to apply.
+         *
+         * @return constraints to apply
+         */
         LocalizedStringSize[] value();
     }
 }

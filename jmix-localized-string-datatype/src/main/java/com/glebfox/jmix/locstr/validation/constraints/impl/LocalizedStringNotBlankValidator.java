@@ -21,6 +21,9 @@ import com.glebfox.jmix.locstr.validation.constraints.LocalizedStringNotBlank;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
+/**
+ * Bean Validation validator for {@link LocalizedStringNotBlank}.
+ */
 public class LocalizedStringNotBlankValidator implements ConstraintValidator<LocalizedStringNotBlank, LocalizedString> {
 
     @Override

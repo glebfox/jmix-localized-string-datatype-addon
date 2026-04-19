@@ -28,6 +28,9 @@ import java.util.Collection;
 import java.util.Locale;
 import java.util.Map;
 
+/**
+ * Bean Validation validator for {@link LocalizedStringNotNull}.
+ */
 public class LocalizedStringNotNullValidator implements ConstraintValidator<LocalizedStringNotNull, LocalizedString> {
 
     @Nullable

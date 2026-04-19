@@ -31,10 +31,24 @@ import org.springframework.lang.Nullable;
 import java.util.Comparator;
 import java.util.Locale;
 
+/**
+ * Collection container sorter that compares {@link LocalizedString} attributes
+ * by the value for the current locale.
+ */
 public class LocalizedStringCollectionContainerSorter extends CollectionContainerSorter {
 
     protected final CurrentAuthentication currentAuthentication;
 
+    /**
+     * Creates the sorter.
+     *
+     * @param container             collection container to sort
+     * @param loader                optional collection loader used by the base
+     *                              sorter
+     * @param beanFactory           bean factory used by the base sorter
+     * @param currentAuthentication current authentication used to resolve the
+     *                              locale
+     */
     public LocalizedStringCollectionContainerSorter(CollectionContainer<?> container,
                                                     @Nullable BaseCollectionLoader loader,
                                                     BeanFactory beanFactory,

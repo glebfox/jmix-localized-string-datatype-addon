@@ -25,9 +25,25 @@ import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
 
+/**
+ * Adapts a Jmix bean property validator to a single localized editor field.
+ * <p>
+ * The field value is copied to all editor locales before validation so a
+ * property-level {@link LocalizedString} constraint can validate the edited
+ * locale together with the rest of the localized value contract.
+ *
+ * @param validator bean property validator for a {@link LocalizedString}
+ *                  property
+ * @param locales   locales currently displayed by the editor
+ */
 public record BeanValidatorAdapter(BeanPropertyValidator validator, Collection<Locale> locales)
         implements io.jmix.flowui.component.validation.Validator<String> {
 
+    /**
+     * Validates the field value through the wrapped bean property validator.
+     *
+     * @param value localized field value, may be {@code null}
+     */
     @Override
     public void accept(@Nullable String value) {
         Map<Locale, String> values = new LinkedHashMap<>();

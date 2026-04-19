@@ -30,6 +30,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Checks that a localized string contains a non-null value for every configured application locale.
+ * <p>
+ * If Jmix core properties are not available, the constraint validates against
+ * the locales already stored in the value.
  */
 @Documented
 @Constraint(validatedBy = LocalizedStringNotNullValidator.class)
@@ -39,18 +42,42 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Repeatable(LocalizedStringNotNull.List.class)
 public @interface LocalizedStringNotNull {
 
+    /**
+     * Defines the validation error message template.
+     *
+     * @return validation error message template
+     */
     String message() default "{msg://validation.constraints.LocalizedStringNotNull.message}";
 
+    /**
+     * Defines validation groups for this constraint.
+     *
+     * @return validation groups
+     */
     Class<?>[] groups() default {};
 
+    /**
+     * Defines payload objects attached to this constraint.
+     *
+     * @return constraint payload
+     */
     Class<? extends Payload>[] payload() default {};
 
+    /**
+     * Defines several {@link LocalizedStringNotNull} constraints on the same
+     * element.
+     */
     @Documented
     @Target({ElementType.METHOD, ElementType.FIELD, ElementType.ANNOTATION_TYPE,
             ElementType.CONSTRUCTOR, ElementType.PARAMETER, ElementType.TYPE_USE})
     @Retention(RUNTIME)
     @interface List {
 
+        /**
+         * Returns constraints to apply.
+         *
+         * @return constraints to apply
+         */
         LocalizedStringNotNull[] value();
     }
 }

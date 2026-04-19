@@ -30,6 +30,9 @@ import org.springframework.context.annotation.PropertySource;
 
 import java.util.Collections;
 
+/**
+ * Spring configuration that registers the LocalizedString Jmix module.
+ */
 @Configuration
 @ComponentScan
 @ConfigurationPropertiesScan
@@ -37,6 +40,15 @@ import java.util.Collections;
 @PropertySource(name = "com.glebfox.jmix.locstr", value = "classpath:/com/glebfox/jmix/locstr/module.properties")
 public class LocstrConfiguration {
 
+    /**
+     * Registers action metadata for add-on UI actions.
+     *
+     * @param applicationContext          Spring application context used by the
+     *                                    Jmix action scanner
+     * @param metadataReaderFactory      metadata reader factory used by the
+     *                                    Jmix action scanner
+     * @return action configuration that scans the add-on action package
+     */
     @Bean("locstr_LocstrActions")
     public ActionsConfiguration actions(final ApplicationContext applicationContext,
                                         final AnnotationScanMetadataReaderFactory metadataReaderFactory) {

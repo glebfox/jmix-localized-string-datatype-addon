@@ -74,6 +74,9 @@ import java.util.stream.Collectors;
 public class LocalizedStringEditAction
         extends PickerAction<LocalizedStringEditAction, PickerComponent<LocalizedString>, LocalizedString> {
 
+    /**
+     * Default action type identifier used in XML descriptors.
+     */
     public static final String ID = "value_localizedStringEdit";
 
     protected ApplicationContext applicationContext;
@@ -88,7 +91,7 @@ public class LocalizedStringEditAction
     protected Button cancelButton;
 
     protected LinkedHashMap<Locale, String> availableLocales;
-    protected Map<Locale, HasValueAndElement<?, String>> fields = new LinkedHashMap<>();
+    protected final Map<Locale, HasValueAndElement<?, String>> fields = new HashMap<>();
     protected List<Validator> validators;
 
     protected Boolean multiline;
@@ -101,10 +104,18 @@ public class LocalizedStringEditAction
 
     protected ValueProvider<FieldGenerationContext, HasValueAndElement<?, String>> fieldProvider;
 
+    /**
+     * Creates an action with the default {@link #ID}.
+     */
     public LocalizedStringEditAction() {
         this(ID);
     }
 
+    /**
+     * Creates an action with the given identifier.
+     *
+     * @param id action identifier
+     */
     public LocalizedStringEditAction(String id) {
         super(id);
 
@@ -159,6 +170,13 @@ public class LocalizedStringEditAction
         this.dialogs = dialogs;
     }
 
+    /**
+     * Sets the picker component whose localized string value will be edited.
+     *
+     * @param target target picker component, or {@code null} to clear it
+     * @throws IllegalArgumentException if the target does not implement
+     *                                  {@link HasValue}
+     */
     @Override
     public void setTarget(@Nullable PickerComponent<LocalizedString> target) {
         Preconditions.checkArgument(target == null || target instanceof HasValue<?, ?>,
@@ -183,12 +201,13 @@ public class LocalizedStringEditAction
      * If not set explicitly, the presence of the {@link Lob}
      * annotation is checked. A single-line text input component
      * is used by default.
+     * <p>
+     * <strong>API note:</strong> this setting is applied when fields are
+     * created before the edit dialog is opened. {@link TextArea} is used for
+     * multi-line text input, {@link TextField} otherwise.
      *
      * @param multiline {@code true} to use a multi-line text
      *                  input component, {@code false} otherwise
-     * @apiNote this setting is applied when the edit dialog is opened.
-     * {@link TextArea} is requested from {@link UiComponents} for
-     * multi-line text input, {@link TextField} otherwise
      */
     public void setMultiline(boolean multiline) {
         this.multiline = multiline;
@@ -197,13 +216,14 @@ public class LocalizedStringEditAction
     /**
      * Sets whether to use a multi-line text input component.
      * {@code false} by default.
+     * <p>
+     * <strong>API note:</strong> this setting is applied when fields are
+     * created before the edit dialog is opened. {@link TextArea} is used for
+     * multi-line text input, {@link TextField} otherwise.
      *
      * @param multiline {@code true} to use a multi-line text
      *                  input component, {@code false} otherwise
      * @return this object
-     * @apiNote this setting is applied when the edit dialog is opened.
-     * {@link TextArea} is requested from {@link UiComponents} for
-     * multi-line text input, {@link TextField} otherwise
      */
     public LocalizedStringEditAction withMultiline(boolean multiline) {
         setMultiline(multiline);
@@ -791,6 +811,9 @@ public class LocalizedStringEditAction
         return this;
     }
 
+    /**
+     * Opens the editor dialog for the current target value.
+     */
     @Override
     public void execute() {
         checkTarget();
@@ -854,7 +877,7 @@ public class LocalizedStringEditAction
     }
 
     protected void doSave(ClickEvent<Button> event) {
-        Map<Locale, String> localizedValues = getFields().entrySet().stream()
+        Map<Locale, String> localizedValues = fields.entrySet().stream()
                 .collect(Collectors.toMap(Map.Entry::getKey,
                         entry -> entry.getValue().getValue())
                 );
@@ -899,7 +922,7 @@ public class LocalizedStringEditAction
         layout.setAlignItems(FlexComponent.Alignment.STRETCH);
         layout.setClassName("localized-string-editor-content");
 
-        fields = new LinkedHashMap<>();
+        fields.clear();
         availableLocales.keySet().stream()
                 .map(locale -> ((Component) getField(locale)))
                 .forEach(layout::add);
@@ -909,7 +932,7 @@ public class LocalizedStringEditAction
 
     protected HasValueAndElement<?, String> getField(Locale locale) {
         HasValueAndElement<?, String> field = createField(locale);
-        getFields().put(locale, field);
+        fields.put(locale, field);
         field.setValue(getInitialValue(locale));
         return field;
     }
@@ -956,7 +979,7 @@ public class LocalizedStringEditAction
     }
 
     protected void updateSaveButtonState() {
-        boolean hasInvalidFields = getFields().entrySet()
+        boolean hasInvalidFields = fields.entrySet()
                 .stream()
                 .anyMatch(entry ->
                         entry.getValue() instanceof HasValidation hasValidation
@@ -1070,10 +1093,6 @@ public class LocalizedStringEditAction
     protected String getInitialValue(Locale locale) {
         LocalizedString localizedString = ((HasValue<?, LocalizedString>) target).getValue();
         return localizedString != null ? localizedString.getValue(locale) : "";
-    }
-
-    protected Map<Locale, HasValueAndElement<?, String>> getFields() {
-        return fields;
     }
 
     protected boolean isMac() {

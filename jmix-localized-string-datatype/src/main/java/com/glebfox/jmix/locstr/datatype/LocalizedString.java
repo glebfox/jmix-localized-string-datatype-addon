@@ -26,6 +26,12 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+/**
+ * Serializable value object that stores text values by locale.
+ * <p>
+ * The object is immutable from the caller's point of view: the map passed to the
+ * constructor is copied and no mutable map is exposed.
+ */
 public class LocalizedString implements Serializable {
 
     private static final TypeReference<HashMap<Locale, String>> TYPE_REFERENCE = new TypeReference<>() {
@@ -33,10 +39,21 @@ public class LocalizedString implements Serializable {
 
     private final Map<Locale, String> values;
 
+    /**
+     * Creates a localized string from the provided locale-to-value map.
+     *
+     * @param values localized values keyed by locale
+     */
     public LocalizedString(Map<Locale, String> values) {
         this.values = new HashMap<>(values);
     }
 
+    /**
+     * Returns the value for the given locale.
+     *
+     * @param locale locale to look up
+     * @return localized value, or an empty string if the locale is not present
+     */
     public String getValue(Locale locale) {
         return values.getOrDefault(locale, "");
     }
@@ -50,6 +67,12 @@ public class LocalizedString implements Serializable {
         return Collections.unmodifiableMap(values);
     }
 
+    /**
+     * Serializes this object to JSON.
+     *
+     * @return JSON representation of the locale-to-value map
+     * @throws RuntimeException if the value cannot be serialized
+     */
     public String toJson() {
         try {
             return new ObjectMapper().writeValueAsString(values);
@@ -58,6 +81,13 @@ public class LocalizedString implements Serializable {
         }
     }
 
+    /**
+     * Deserializes a localized string from JSON created by {@link #toJson()}.
+     *
+     * @param json JSON representation of the locale-to-value map
+     * @return localized string instance
+     * @throws RuntimeException if the JSON value cannot be deserialized
+     */
     public static LocalizedString fromJson(String json) {
         try {
             Map<Locale, String> values = new ObjectMapper().readValue(json, TYPE_REFERENCE);
@@ -67,6 +97,9 @@ public class LocalizedString implements Serializable {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -76,11 +109,19 @@ public class LocalizedString implements Serializable {
         return values.equals(that.values);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         return values.hashCode();
     }
 
+    /**
+     * Returns the JSON representation of this localized string.
+     *
+     * @return JSON representation of the locale-to-value map
+     */
     @Override
     public String toString() {
         return toJson();

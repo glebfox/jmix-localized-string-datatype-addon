@@ -21,6 +21,9 @@ import com.glebfox.jmix.locstr.validation.constraints.LocalizedStringSize;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
+/**
+ * Bean Validation validator for {@link LocalizedStringSize}.
+ */
 public class LocalizedStringSizeValidator implements ConstraintValidator<LocalizedStringSize, LocalizedString> {
 
     protected int min;

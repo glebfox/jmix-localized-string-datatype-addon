@@ -27,6 +27,12 @@ import org.springframework.lang.Nullable;
 import java.text.ParseException;
 import java.util.Locale;
 
+/**
+ * Jmix datatype that formats and parses {@link LocalizedString} values.
+ * <p>
+ * Formatting returns the value for the current user locale. Parsing creates a
+ * localized string containing the parsed text for the current user locale.
+ */
 @DatatypeDef(
         id = "localizedString",
         javaClass = LocalizedString.class,
@@ -39,11 +45,26 @@ public class LocalizedStringDatatype implements Datatype<LocalizedString> {
     @Autowired
     protected CurrentAuthentication currentAuthentication;
 
+    /**
+     * Formats a localized string for the current user locale.
+     *
+     * @param value value to format
+     * @return localized text, or an empty string if the value is not a
+     * {@link LocalizedString}
+     */
     @Override
     public String format(@Nullable Object value) {
         return format(value, currentAuthentication.getLocale());
     }
 
+    /**
+     * Formats a localized string for the given locale.
+     *
+     * @param value  value to format
+     * @param locale locale whose value should be returned
+     * @return localized text, or an empty string if the value is not a
+     * {@link LocalizedString}
+     */
     @Override
     public String format(@Nullable Object value, Locale locale) {
         return value instanceof LocalizedString localizedString
@@ -51,11 +72,30 @@ public class LocalizedStringDatatype implements Datatype<LocalizedString> {
                 : "";
     }
 
+    /**
+     * Parses text as a localized string for the current user locale.
+     *
+     * @param value text to parse
+     * @return localized string containing the text for the current user locale,
+     * or {@code null} if the value is {@code null}
+     * @throws ParseException never thrown by this implementation
+     */
+    @Nullable
     @Override
     public LocalizedString parse(@Nullable String value) throws ParseException {
         return parse(value, currentAuthentication.getLocale());
     }
 
+    /**
+     * Parses text as a localized string for the given locale.
+     *
+     * @param value  text to parse
+     * @param locale locale to associate with the parsed text
+     * @return localized string containing the text for the given locale, or
+     * {@code null} if the value is {@code null}
+     * @throws ParseException never thrown by this implementation
+     */
+    @Nullable
     @Override
     public LocalizedString parse(@Nullable String value, Locale locale) throws ParseException {
         if (value == null) {

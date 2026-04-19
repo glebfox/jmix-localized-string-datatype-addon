@@ -25,4 +25,12 @@ import java.util.function.Consumer;
  */
 @FunctionalInterface
 public interface Validator extends Consumer<ValidationContext> {
+
+    /**
+     * Validates a localized input field value.
+     *
+     * @param context validation context containing the field locale and value
+     */
+    @Override
+    void accept(ValidationContext context);
 }

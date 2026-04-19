@@ -23,8 +23,8 @@ import java.util.Locale;
 /**
  * Contains information for {@link Validator} when checking an input field value.
  *
- * @param value  a value of an input field
  * @param locale a locale with which an input field is associated
+ * @param value  a value of an input field
  */
 public record ValidationContext(Locale locale, @Nullable String value) {
 }

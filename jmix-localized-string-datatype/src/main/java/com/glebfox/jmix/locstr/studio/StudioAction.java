@@ -18,9 +18,15 @@ package com.glebfox.jmix.locstr.studio;
 
 import io.jmix.flowui.kit.meta.*;
 
+/**
+ * Jmix Studio metadata for add-on UI actions.
+ */
 @StudioUiKit
 public interface StudioAction {
 
+    /**
+     * Describes the localized string edit action for Jmix Studio tooling.
+     */
     @io.jmix.flowui.kit.meta.StudioAction(
             type = "value_localizedStringEdit",
             description = "Opens a dialog that edits a localized string value",

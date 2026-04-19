@@ -27,6 +27,10 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 
+/**
+ * Sorter factory that installs locale-aware in-memory sorting for
+ * {@link LocalizedString} attributes.
+ */
 @Primary
 @Component("locstr_LocalizedStringSorterFactory")
 @ConditionalOnProperty(
@@ -38,10 +42,23 @@ public class LocalizedStringSorterFactory extends SorterFactory {
 
     protected final CurrentAuthentication currentAuthentication;
 
+    /**
+     * Creates the sorter factory.
+     *
+     * @param currentAuthentication current authentication used by created
+     *                              sorters to resolve the locale
+     */
     public LocalizedStringSorterFactory(CurrentAuthentication currentAuthentication) {
         this.currentAuthentication = currentAuthentication;
     }
 
+    /**
+     * Creates a collection container sorter with localized string support.
+     *
+     * @param container collection container to sort
+     * @param loader    optional collection loader used by the sorter
+     * @return sorter that handles localized strings using the current locale
+     */
     @Override
     public Sorter createCollectionContainerSorter(CollectionContainer<?> container,
                                                   @Nullable BaseCollectionLoader loader) {

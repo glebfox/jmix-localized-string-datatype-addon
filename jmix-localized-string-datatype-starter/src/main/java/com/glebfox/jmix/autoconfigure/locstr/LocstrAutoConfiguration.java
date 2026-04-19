@@ -20,8 +20,10 @@ import com.glebfox.jmix.locstr.LocstrConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Import;
 
+/**
+ * Spring Boot auto-configuration that imports the LocalizedString Jmix module.
+ */
 @AutoConfiguration
 @Import({LocstrConfiguration.class})
 public class LocstrAutoConfiguration {
 }
-

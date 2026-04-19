@@ -20,9 +20,20 @@ import org.springframework.lang.Nullable;
 
 import java.util.Locale;
 
+/**
+ * Adapts an add-on {@link Validator} to the Jmix Flow UI validator contract.
+ *
+ * @param validator validator to invoke
+ * @param locale    locale associated with the validated field
+ */
 public record ValidatorAdapter(Validator validator, Locale locale)
         implements io.jmix.flowui.component.validation.Validator<String> {
 
+    /**
+     * Validates a field value by wrapping it into a {@link ValidationContext}.
+     *
+     * @param value field value to validate, may be {@code null}
+     */
     @Override
     public void accept(@Nullable String value) {
         validator.accept(new ValidationContext(locale, value));

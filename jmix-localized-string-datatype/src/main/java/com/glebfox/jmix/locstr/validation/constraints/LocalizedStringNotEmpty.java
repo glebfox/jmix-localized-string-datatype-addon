@@ -30,6 +30,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Checks that every localized value is not empty.
+ * <p>
+ * A {@code null} localized string is invalid. A stored {@code null} localized
+ * value is validated as an empty string.
  */
 @Documented
 @Constraint(validatedBy = LocalizedStringNotEmptyValidator.class)
@@ -39,18 +42,42 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Repeatable(LocalizedStringNotEmpty.List.class)
 public @interface LocalizedStringNotEmpty {
 
+    /**
+     * Defines the validation error message template.
+     *
+     * @return validation error message template
+     */
     String message() default "{msg://validation.constraints.LocalizedStringNotEmpty.message}";
 
+    /**
+     * Defines validation groups for this constraint.
+     *
+     * @return validation groups
+     */
     Class<?>[] groups() default {};
 
+    /**
+     * Defines payload objects attached to this constraint.
+     *
+     * @return constraint payload
+     */
     Class<? extends Payload>[] payload() default {};
 
+    /**
+     * Defines several {@link LocalizedStringNotEmpty} constraints on the same
+     * element.
+     */
     @Documented
     @Target({ElementType.METHOD, ElementType.FIELD, ElementType.ANNOTATION_TYPE,
             ElementType.CONSTRUCTOR, ElementType.PARAMETER, ElementType.TYPE_USE})
     @Retention(RUNTIME)
     @interface List {
 
+        /**
+         * Returns constraints to apply.
+         *
+         * @return constraints to apply
+         */
         LocalizedStringNotEmpty[] value();
     }
 }

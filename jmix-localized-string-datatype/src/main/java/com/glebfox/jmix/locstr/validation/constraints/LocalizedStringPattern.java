@@ -31,6 +31,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Checks that every localized value matches the specified regular expression.
+ * <p>
+ * {@code null} localized strings are valid. Stored {@code null} localized
+ * values are validated as empty strings.
  */
 @Documented
 @Constraint(validatedBy = LocalizedStringPatternValidator.class)
@@ -40,22 +43,56 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Repeatable(LocalizedStringPattern.List.class)
 public @interface LocalizedStringPattern {
 
+    /**
+     * Defines the validation error message template.
+     *
+     * @return validation error message template
+     */
     String message() default "{msg://validation.constraints.LocalizedStringPattern.message}";
 
+    /**
+     * Defines validation groups for this constraint.
+     *
+     * @return validation groups
+     */
     Class<?>[] groups() default {};
 
+    /**
+     * Defines payload objects attached to this constraint.
+     *
+     * @return constraint payload
+     */
     Class<? extends Payload>[] payload() default {};
 
+    /**
+     * Defines the regular expression that every localized value must match.
+     *
+     * @return regular expression that every localized value must match
+     */
     String regexp();
 
+    /**
+     * Defines regular expression flags.
+     *
+     * @return regular expression flags
+     */
     Flag[] flags() default {};
 
+    /**
+     * Defines several {@link LocalizedStringPattern} constraints on the same
+     * element.
+     */
     @Documented
     @Target({ElementType.METHOD, ElementType.FIELD, ElementType.ANNOTATION_TYPE,
             ElementType.CONSTRUCTOR, ElementType.PARAMETER, ElementType.TYPE_USE})
     @Retention(RUNTIME)
     @interface List {
 
+        /**
+         * Returns constraints to apply.
+         *
+         * @return constraints to apply
+         */
         LocalizedStringPattern[] value();
     }
 }

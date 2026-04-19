@@ -29,6 +29,13 @@ import org.springframework.stereotype.Component;
 import java.util.Locale;
 import java.util.function.Supplier;
 
+/**
+ * JPQL sort expression provider that sorts {@link LocalizedString} attributes
+ * by the value for the current locale.
+ * <p>
+ * If the current database is not supported by the add-on expression builder,
+ * sorting falls back to the default Jmix implementation.
+ */
 @Primary
 @Component("locstr_LocalizedStringJpqlSortExpressionProvider")
 @ConditionalOnProperty(
@@ -41,12 +48,27 @@ public class LocalizedStringJpqlSortExpressionProvider extends DefaultJpqlSortEx
     protected final CurrentAuthentication currentAuthentication;
     protected final DbmsSpecifics dbmsSpecifics;
 
+    /**
+     * Creates the provider.
+     *
+     * @param currentAuthentication current authentication used to resolve the
+     *                              locale
+     * @param dbmsSpecifics         Jmix database-specific metadata
+     */
     public LocalizedStringJpqlSortExpressionProvider(CurrentAuthentication currentAuthentication,
                                                      DbmsSpecifics dbmsSpecifics) {
         this.currentAuthentication = currentAuthentication;
         this.dbmsSpecifics = dbmsSpecifics;
     }
 
+    /**
+     * Returns a JPQL sort expression for datatype attributes.
+     *
+     * @param metaPropertyPath entity property path to sort by
+     * @param sortDirectionAsc {@code true} for ascending sort direction
+     * @return locale-aware sort expression for localized strings, or the
+     * default Jmix expression for other datatypes
+     */
     @Override
     public String getDatatypeSortExpression(MetaPropertyPath metaPropertyPath, boolean sortDirectionAsc) {
         return sortExpression(
@@ -54,6 +76,14 @@ public class LocalizedStringJpqlSortExpressionProvider extends DefaultJpqlSortEx
                 () -> super.getDatatypeSortExpression(metaPropertyPath, sortDirectionAsc));
     }
 
+    /**
+     * Returns a JPQL sort expression for LOB attributes.
+     *
+     * @param metaPropertyPath entity property path to sort by
+     * @param sortDirectionAsc {@code true} for ascending sort direction
+     * @return locale-aware sort expression for localized strings, or the
+     * default Jmix expression for other LOB values
+     */
     @Override
     public String getLobSortExpression(MetaPropertyPath metaPropertyPath, boolean sortDirectionAsc) {
         return sortExpression(

@@ -22,6 +22,9 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import jakarta.validation.constraints.Pattern.Flag;
 
+/**
+ * Bean Validation validator for {@link LocalizedStringPattern}.
+ */
 public class LocalizedStringPatternValidator implements ConstraintValidator<LocalizedStringPattern, LocalizedString> {
 
     protected java.util.regex.Pattern pattern;
