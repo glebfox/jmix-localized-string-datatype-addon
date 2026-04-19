@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-04-19
+
 ### Added
 
 - Support sorting `LocalizedString` values by the user's current locale.
@@ -25,5 +27,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - `LocalizedStringConverter` - a class that converts entity attribute state into database column representation and back again.
 - `LocalizedStringEditAction` - that opens a dialog that edits a localized string value represented by the `LocalizedString` datatype.
 
-[unreleased]: https://github.com/glebfox/jmix-localized-string-datatype-addon/compare/v1.0.0...HEAD
-[1.0.0]: https://github.com/glebfox/jmix-localized-string-datatype-addon/releases/tag/v1.0.0
+[unreleased]: https://github.com/glebfox/jmix-localized-string-datatype-addon/compare/1.1.0...HEAD
+[1.1.0]: https://github.com/glebfox/jmix-localized-string-datatype-addon/releases/tag/1.1.0
+[1.0.0]: https://github.com/glebfox/jmix-localized-string-datatype-addon/releases/tag/1.0.0
