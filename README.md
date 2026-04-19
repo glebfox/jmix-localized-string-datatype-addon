@@ -18,7 +18,7 @@ The following table shows which version of the add-on is compatible with which v
 | Jmix Version | Add-on Version | Implementation                                                       |
 |--------------|----------------|----------------------------------------------------------------------|
 | 2.3.0+       | 1.0.0          | com.glebfox.jmix.locstr:jmix-localized-string-datatype-starter:1.0.0 |
-| 2.8.1+       | 1.1.0          | com.glebfox.jmix.locstr:jmix-localized-string-datatype-starter:1.1.0 |
+| 2.8.0+       | 1.1.0          | com.glebfox.jmix.locstr:jmix-localized-string-datatype-starter:1.1.0 |
 
 For manual installation, add the following dependency to your `build.gradle`:
 
