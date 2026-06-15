@@ -5,242 +5,274 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Jmix LocalizedString Datatype add-on for storing, editing, validating, and sorting localized entity attributes.">
     <title>Jmix LocalizedString Datatype</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
-<body>
-<header class="site-header">
-    <a class="brand" href="#top" aria-label="Jmix LocalizedString Datatype home">
-        <span class="brand-mark">LS</span>
-        <span>LocalizedString</span>
-    </a>
-    <nav class="site-nav" aria-label="Primary navigation">
-        <a href="#install">Install</a>
-        <a href="#features">Features</a>
-        <a href="#screens">Screens</a>
-        <a href="https://github.com/glebfox/jmix-localized-string-datatype-addon">GitHub</a>
-    </nav>
+<body id="top">
+<header class="nav">
+    <div class="wrap nav-inner">
+        <a class="brand" href="#top" aria-label="Jmix LocalizedString Datatype home">
+            <span class="mk">LS</span>
+            <span>LocalizedString</span>
+        </a>
+        <nav class="nav-links" aria-label="Primary navigation">
+            <a href="#install">Install</a>
+            <a href="#features">Features</a>
+            <a href="#screens">Screens</a>
+            <a href="https://github.com/glebfox/jmix-localized-string-datatype-addon">GitHub</a>
+        </nav>
+    </div>
 </header>
 
-<main id="top">
+<main>
     <section class="hero" aria-labelledby="hero-title">
-        <div class="hero-shell">
-            <div class="hero-content">
-                <p class="eyebrow">Jmix 2.8+ add-on</p>
-                <h1 id="hero-title">Jmix LocalizedString Datatype</h1>
-                <p class="hero-copy">
-                    Locale-aware entity text for Jmix apps. Store multilingual values as one
-                    attribute, edit them in Flow UI, validate every locale, and sort by the
-                    current user's language.
-                </p>
-                <div class="hero-actions" aria-label="Project links">
-                    <a class="button primary" href="#install">Get started</a>
-                    <a class="button secondary" href="https://github.com/glebfox/jmix-localized-string-datatype-addon/releases">Releases</a>
-                    <a class="button ghost" href="https://github.com/glebfox/jmix-localized-string-datatype-addon/blob/main/README.md">Readme</a>
-                </div>
-                <div class="hero-terminal" aria-label="Gradle dependency">
-                    <span class="terminal-label">Gradle</span>
-                    <code>implementation 'com.glebfox.jmix.locstr:jmix-localized-string-datatype-starter:1.1.0'</code>
-                </div>
-                <div class="hero-tags" aria-label="Add-on capabilities">
-                    <span>Datatype</span>
-                    <span>Flow UI action</span>
-                    <span>Bean Validation</span>
-                    <span>Locale-aware sorting</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="proof-strip" aria-label="Project highlights">
-        <div>
-            <strong>Datatype</strong>
-            <span>Custom Jmix datatype backed by JSON storage</span>
-        </div>
-        <div>
-            <strong>Flow UI</strong>
-            <span>Localized editor action for ValuePicker</span>
-        </div>
-        <div>
-            <strong>Validation</strong>
-            <span>Bean Validation constraints per locale</span>
-        </div>
-        <div>
-            <strong>Sorting</strong>
-            <span>Database and in-memory locale-aware sorting</span>
-        </div>
-    </section>
-
-    <section class="section intro-section" id="features">
-        <div class="section-heading">
-            <p class="eyebrow">What it solves</p>
-            <h2>Multilingual entity fields without custom screens for every project.</h2>
-        </div>
-        <div class="feature-grid">
-            <article class="feature-card">
-                <span class="feature-kicker">01</span>
-                <h3>Use one domain type</h3>
-                <p>
-                    Add a <code>LocalizedString</code> attribute to your entity and keep every locale
-                    together in one Jmix datatype.
-                </p>
-            </article>
-            <article class="feature-card accent-coral">
-                <span class="feature-kicker">02</span>
-                <h3>Edit all locales in place</h3>
-                <p>
-                    Attach <code>value_localizedStringEdit</code> to a <code>ValuePicker</code>
-                    and open a focused dialog for localized values.
-                </p>
-            </article>
-            <article class="feature-card accent-gold">
-                <span class="feature-kicker">03</span>
-                <h3>Respect the user locale</h3>
-                <p>
-                    Visual components display the value that matches the current locale, with
-                    sorting support for list views and data containers.
-                </p>
-            </article>
-        </div>
-    </section>
-
-    <section class="section split-section" id="install">
-        <div class="section-heading">
-            <p class="eyebrow">Install</p>
-            <h2>Add the starter dependency and continue using normal Jmix entities.</h2>
-        </div>
-        <div class="install-layout">
-            <div class="code-panel" aria-label="Gradle dependency">
-                <div class="code-panel-header">
-                    <span>build.gradle</span>
-                    <span>Gradle</span>
-                </div>
-                <pre><code>implementation 'com.glebfox.jmix.locstr:jmix-localized-string-datatype-starter:1.1.0'</code></pre>
-            </div>
-            <div class="compat-table" aria-label="Compatibility table">
-                <div class="compat-row compat-head">
-                    <span>Jmix</span>
-                    <span>Add-on</span>
-                    <span>Artifact</span>
-                </div>
-                <div class="compat-row">
-                    <span>2.8.0+</span>
-                    <span>1.1.0</span>
-                    <span>starter</span>
-                </div>
-                <div class="compat-row">
-                    <span>2.3.0+</span>
-                    <span>1.0.0</span>
-                    <span>starter</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="section showcase-section">
-        <div class="showcase-copy">
-            <p class="eyebrow">Flow UI editor</p>
-            <h2>A localized editor that feels native to Jmix screens.</h2>
-            <p>
-                The add-on provides a ready-to-use action for <code>ValuePicker</code>. It can
-                switch between compact and multiline fields, check unsaved changes, and accept
-                custom validators or field providers when a project needs richer input controls.
+        <div class="wrap">
+            <span class="eyebrow">Jmix 2.8+ add-on</span>
+            <h1 id="hero-title">Jmix LocalizedString Datatype</h1>
+            <p class="lede">
+                Locale-aware entity text for Jmix apps. Store multilingual values as one
+                attribute, edit them in Flow UI, validate every locale, and sort by the
+                current user's language.
             </p>
-            <pre><code>&lt;valuePicker id="nameField" property="name"&gt;
-    &lt;actions&gt;
-        &lt;action id="localizedStringEdit" type="value_localizedStringEdit"/&gt;
-        &lt;action id="clear" type="value_clear"/&gt;
-    &lt;/actions&gt;
-&lt;/valuePicker&gt;</code></pre>
-        </div>
-        <figure class="showcase-media">
-            <img src="assets/img/edit-dialog.png" alt="LocalizedString edit dialog in a Jmix Flow UI view">
-        </figure>
-    </section>
-
-    <section class="section validation-section">
-        <div class="section-heading">
-            <p class="eyebrow">Validation</p>
-            <h2>Validate every localized value before saving.</h2>
-        </div>
-        <div class="validation-grid">
-            <article>
-                <h3>Required values</h3>
-                <p>
-                    Use <code>@LocalizedStringNotNull</code>, <code>@LocalizedStringNotEmpty</code>,
-                    or <code>@LocalizedStringNotBlank</code> to enforce locale coverage.
-                </p>
-            </article>
-            <article>
-                <h3>Length and pattern rules</h3>
-                <p>
-                    Apply <code>@LocalizedStringSize</code>, <code>@LocalizedStringLength</code>,
-                    and <code>@LocalizedStringPattern</code> to each localized value.
-                </p>
-            </article>
-            <article>
-                <h3>Custom field behavior</h3>
-                <p>
-                    Install validators or a field provider to customize the edit dialog while
-                    keeping the same entity attribute model.
-                </p>
-            </article>
-        </div>
-    </section>
-
-    <section class="section screens-section" id="screens">
-        <div class="section-heading">
-            <p class="eyebrow">Screenshots</p>
-            <h2>Real add-on behavior in a Jmix application.</h2>
-        </div>
-        <div class="screen-grid">
-            <figure>
-                <img src="assets/img/localized-value-1.png" alt="Product list displaying English localized values">
-                <figcaption>Locale-specific display values</figcaption>
-            </figure>
-            <figure>
-                <img src="assets/img/localized-value-2.png" alt="Product list displaying Russian localized values">
-                <figcaption>Same data, different user locale</figcaption>
-            </figure>
-            <figure>
-                <img src="assets/img/attribute-datatype.png" alt="Jmix Studio attribute datatype selector with LocalizedString selected">
-                <figcaption>Studio datatype selection</figcaption>
-            </figure>
-            <figure>
-                <img src="assets/img/multiline-fields.png" alt="LocalizedString editor with multiline fields">
-                <figcaption>Multiline editing</figcaption>
-            </figure>
-            <figure>
-                <img src="assets/img/required-field.png" alt="LocalizedString editor showing required field validation">
-                <figcaption>Required locale fields</figcaption>
-            </figure>
-            <figure>
-                <img src="assets/img/field-provider.png" alt="LocalizedString editor using a custom rich text field provider">
-                <figcaption>Custom field providers</figcaption>
-            </figure>
-        </div>
-    </section>
-
-    <section class="section notes-section">
-        <div class="notes-panel">
-            <div>
-                <p class="eyebrow">Storage model</p>
-                <h2>Database state stays simple.</h2>
+            <div class="actions">
+                <a class="btn primary" href="#install">Get started</a>
+                <a class="btn secondary" href="https://github.com/glebfox/jmix-localized-string-datatype-addon/releases">Releases</a>
+                <a class="btn text" href="https://github.com/glebfox/jmix-localized-string-datatype-addon/blob/main/README.md">Readme &rarr;</a>
             </div>
-            <p>
-                Localized values are stored as JSON in one column, for example
-                <code>{"en":"Keyboard","de":"Tastatur"}</code>. Filtering by this datatype
-                is intentionally limited: Jmix <code>GenericFilter</code> and
-                <code>PropertyFilter</code> do not support it.
-            </p>
+            <div class="install" aria-label="Gradle dependency">
+                <div class="co">
+                    <span class="fn">build.gradle</span>
+                    <button class="copy" type="button" title="Copy" aria-label="Copy dependency to clipboard">
+                        <svg class="ic ic-copy" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M14 9V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h3"/></svg>
+                        <svg class="ic ic-ok" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l4.5 4.5L19 7"/></svg>
+                        <span class="ct">Copy</span>
+                    </button>
+                </div>
+                <pre><code><span class="k">implementation</span> 'com.glebfox.jmix.locstr:jmix-localized-string-datatype-starter:1.1.0'</code></pre>
+            </div>
+            <div class="tags" aria-label="Add-on capabilities">
+                <span>Datatype</span>
+                <span>Flow UI action</span>
+                <span>Bean Validation</span>
+                <span>Locale-aware sorting</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="section soft" aria-label="Project highlights">
+        <div class="wrap">
+            <div class="proof-grid">
+                <div>
+                    <strong>Datatype</strong>
+                    <span>Custom Jmix datatype backed by JSON storage</span>
+                </div>
+                <div>
+                    <strong>Flow UI</strong>
+                    <span>Localized editor action for ValuePicker</span>
+                </div>
+                <div>
+                    <strong>Validation</strong>
+                    <span>Bean Validation constraints per locale</span>
+                </div>
+                <div>
+                    <strong>Sorting</strong>
+                    <span>Database and in-memory locale-aware sorting</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="features">
+        <div class="wrap">
+            <div class="sec-head">
+                <span class="eyebrow">What it solves</span>
+                <h2>Multilingual entity fields without custom screens for every project.</h2>
+            </div>
+            <div class="grid-3">
+                <article class="card">
+                    <span class="chip">01</span>
+                    <h3>Use one domain type</h3>
+                    <p>Add a <code>LocalizedString</code> attribute to your entity and keep every locale together in one Jmix datatype.</p>
+                </article>
+                <article class="card">
+                    <span class="chip">02</span>
+                    <h3>Edit all locales in place</h3>
+                    <p>Attach <code>value_localizedStringEdit</code> to a <code>ValuePicker</code> and open a focused dialog for localized values.</p>
+                </article>
+                <article class="card">
+                    <span class="chip">03</span>
+                    <h3>Respect the user locale</h3>
+                    <p>Components display the value that matches the current locale, with sorting for list views and data containers.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="section soft" id="install">
+        <div class="wrap">
+            <div class="sec-head">
+                <span class="eyebrow">Install</span>
+                <h2>Add the starter dependency and keep using normal Jmix entities.</h2>
+            </div>
+            <div class="install-layout">
+                <div class="codepanel" aria-label="Gradle dependency">
+                    <div class="co">
+                        <span class="fn">build.gradle</span>
+                        <button class="copy" type="button" title="Copy" aria-label="Copy dependency to clipboard">
+                            <svg class="ic ic-copy" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M14 9V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h3"/></svg>
+                            <svg class="ic ic-ok" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l4.5 4.5L19 7"/></svg>
+                            <span class="ct">Copy</span>
+                        </button>
+                    </div>
+                    <pre><code><span class="k">implementation</span> 'com.glebfox.jmix.locstr:jmix-localized-string-datatype-starter:1.1.0'</code></pre>
+                </div>
+                <div class="compat" aria-label="Compatibility table">
+                    <div class="crow head"><span>Jmix</span><span>Add-on</span><span>Artifact</span></div>
+                    <div class="crow"><span>2.8.0+</span><span>1.1.0</span><span>starter</span></div>
+                    <div class="crow"><span>2.3.0+</span><span>1.0.0</span><span>starter</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="wrap">
+            <div class="showcase">
+                <div class="showcase-copy">
+                    <span class="eyebrow">Flow UI editor</span>
+                    <h2>A localized editor that feels native to Jmix screens.</h2>
+                    <p>
+                        The add-on provides a ready-to-use action for <code>ValuePicker</code>. It switches
+                        between compact and multiline fields, checks unsaved changes, and accepts custom
+                        validators or field providers for richer input.
+                    </p>
+                    <div class="codepanel codewrap" aria-label="Flow UI view XML">
+                        <div class="co">
+                            <span class="fn">view.xml</span>
+                            <button class="copy" type="button" title="Copy" aria-label="Copy snippet to clipboard">
+                            <svg class="ic ic-copy" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M14 9V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h3"/></svg>
+                            <svg class="ic ic-ok" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l4.5 4.5L19 7"/></svg>
+                            <span class="ct">Copy</span>
+                        </button>
+                        </div>
+                        <pre><code>&lt;<span class="t">valuePicker</span> id="nameField" property="name"&gt;
+    &lt;<span class="t">actions</span>&gt;
+        &lt;<span class="t">action</span> id="localizedStringEdit" type="value_localizedStringEdit"/&gt;
+        &lt;<span class="t">action</span> id="clear" type="value_clear"/&gt;
+    &lt;/<span class="t">actions</span>&gt;
+&lt;/<span class="t">valuePicker</span>&gt;</code></pre>
+                    </div>
+                </div>
+                <figure class="showcase-media">
+                    <img src="assets/img/edit-dialog.png" alt="LocalizedString edit dialog in a Jmix Flow UI view" loading="lazy">
+                </figure>
+            </div>
+        </div>
+    </section>
+
+    <section class="section soft">
+        <div class="wrap">
+            <div class="sec-head">
+                <span class="eyebrow">Validation</span>
+                <h2>Validate every localized value before saving.</h2>
+            </div>
+            <div class="grid-3">
+                <article class="vcard">
+                    <h3>Required values</h3>
+                    <p>Use <code>@LocalizedStringNotNull</code>, <code>@LocalizedStringNotEmpty</code>, or <code>@LocalizedStringNotBlank</code> to enforce locale coverage.</p>
+                </article>
+                <article class="vcard">
+                    <h3>Length and pattern rules</h3>
+                    <p>Apply <code>@LocalizedStringSize</code>, <code>@LocalizedStringLength</code>, and <code>@LocalizedStringPattern</code> to each localized value.</p>
+                </article>
+                <article class="vcard">
+                    <h3>Custom field behavior</h3>
+                    <p>Install validators or a field provider to customize the edit dialog while keeping the same entity attribute model.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="screens">
+        <div class="wrap">
+            <div class="sec-head">
+                <span class="eyebrow">Screenshots</span>
+                <h2>Real add-on behavior in a Jmix application.</h2>
+            </div>
+            <div class="screens">
+                <figure>
+                    <img src="assets/img/localized-value-1.png" alt="Product list displaying English localized values" loading="lazy">
+                    <figcaption>Locale-specific display values</figcaption>
+                </figure>
+                <figure>
+                    <img src="assets/img/localized-value-2.png" alt="Product list displaying Russian localized values" loading="lazy">
+                    <figcaption>Same data, different user locale</figcaption>
+                </figure>
+                <figure>
+                    <img src="assets/img/attribute-datatype.png" alt="Jmix Studio attribute datatype selector with LocalizedString selected" loading="lazy">
+                    <figcaption>Studio datatype selection</figcaption>
+                </figure>
+                <figure>
+                    <img src="assets/img/multiline-fields.png" alt="LocalizedString editor with multiline fields" loading="lazy">
+                    <figcaption>Multiline editing</figcaption>
+                </figure>
+                <figure>
+                    <img src="assets/img/required-field.png" alt="LocalizedString editor showing required field validation" loading="lazy">
+                    <figcaption>Required locale fields</figcaption>
+                </figure>
+                <figure>
+                    <img src="assets/img/field-provider.png" alt="LocalizedString editor using a custom rich text field provider" loading="lazy">
+                    <figcaption>Custom field providers</figcaption>
+                </figure>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="wrap">
+            <div class="notes">
+                <div>
+                    <span class="eyebrow">Storage model</span>
+                    <h2>Database state stays simple.</h2>
+                </div>
+                <p>
+                    Localized values are stored as JSON in one column, for example
+                    <code>{"en":"Keyboard","de":"Tastatur"}</code>. Filtering by this datatype
+                    is intentionally limited: Jmix <code>GenericFilter</code> and
+                    <code>PropertyFilter</code> do not support it.
+                </p>
+            </div>
         </div>
     </section>
 </main>
 
 <footer class="site-footer">
-    <span>Apache License 2.0</span>
-    <span>Made with ❤️ by Codex</span>
-    <a href="https://github.com/glebfox/jmix-localized-string-datatype-addon">GitHub repository</a>
-    <a href="https://docs.jmix.io/jmix/data-model/data-types.html">Jmix datatypes</a>
+    <div class="wrap foot-inner">
+        <span>Apache License 2.0</span>
+        <a href="https://github.com/glebfox/jmix-localized-string-datatype-addon">GitHub repository</a>
+        <a href="https://docs.jmix.io/jmix/data-model/data-types.html">Jmix datatypes</a>
+    </div>
 </footer>
+
+<script>
+    document.querySelectorAll('.copy').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            var block = btn.closest('.install, .codepanel, .codewrap');
+            var pre = block && block.querySelector('pre');
+            if (!pre || !navigator.clipboard) return;
+            navigator.clipboard.writeText(pre.innerText.trim()).then(function () {
+                btn.classList.add('ok');
+                btn.title = 'Copied';
+                setTimeout(function () {
+                    btn.classList.remove('ok');
+                    btn.title = 'Copy';
+                }, 1600);
+            });
+        });
+    });
+</script>
 </body>
 </html>
