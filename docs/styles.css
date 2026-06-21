@@ -612,7 +612,10 @@ button:focus-visible {
     .install-layout,
     .showcase,
     .notes {
-        grid-template-columns: 1fr;
+        /* minmax(0, 1fr) lets the column shrink below its content's min width so
+           non-wrapping code blocks scroll inside their own panel instead of
+           widening the page (mirrors the desktop track definitions). */
+        grid-template-columns: minmax(0, 1fr);
         gap: 24px;
     }
 
